@@ -136,7 +136,7 @@ const Examenes = () => {
 
   return (
     <div className="examenes-page fade-in">
-      <div className="container" style={{ padding: '4rem 2rem' }}>
+      <div className="container examenes-container">
         <h1 className="page-title">Fechas de Exámenes</h1>
         <p className="page-subtitle">Explora el calendario principal de evaluaciones de la facultad de forma instantánea.</p>
         

@@ -93,9 +93,12 @@
 /* Responsive constraints */
 @media (max-width: 768px) {
   .hero-content h1 {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
   }
   .hero-content p {
     font-size: 1.1rem;
+  }
+  .home-content {
+    padding: 2rem 1rem;
   }
 }

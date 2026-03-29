@@ -355,4 +355,64 @@
   flex-shrink: 0;
 }
 
+/* Responsividad para Móviles */
+.examenes-container {
+  padding: 4rem 2rem;
+}
+
+@media (max-width: 768px) {
+  .examenes-container {
+    padding: 2rem 1rem;
+  }
+  
+  .page-title {
+    font-size: 1.8rem;
+  }
+  
+  .page-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
+  
+  .careers-tabs {
+    gap: 0.5rem;
+  }
+  
+  .career-tab {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+  
+  .subject-header {
+    padding: 1rem;
+  }
+  
+  .subject-header h3 {
+    font-size: 1rem;
+  }
+  
+  .subject-content {
+    padding: 0 1rem 1rem;
+  }
+  
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+  
+  .search-container {
+    padding: 0.5rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .search-input {
+    font-size: 0.9rem;
+  }
+}
 
