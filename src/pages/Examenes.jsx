@@ -10,6 +10,7 @@ const Examenes = () => {
   const [loading, setLoading] = useState(true);
   const [showTutorial, setShowTutorial] = useState(false);
   const [isMobileDevice, setIsMobileDevice] = useState(false);
+  const [pendingDownload, setPendingDownload] = useState(null);
 
   useEffect(() => {
     fetch('/exam_data.json', { cache: 'no-cache' })
@@ -33,7 +34,17 @@ const Examenes = () => {
     setActiveSubject(activeSubject === subjectId ? '' : subjectId);
   };
 
-  const generateICS = (subject, career, cls) => {
+  const handlePrepareDownload = (subject, career, cls) => {
+    setPendingDownload({ subject, career, cls });
+    const isMobile = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    setIsMobileDevice(isMobile);
+    setShowTutorial(true);
+  };
+
+  const executeDownload = () => {
+    if (!pendingDownload) return;
+    const { subject, career, cls } = pendingDownload;
+
     const partials = [
       { name: '1er Parcial', date: cls.parcial_1 },
       { name: '2do Parcial', date: cls.parcial_2 },
@@ -113,10 +124,8 @@ const Examenes = () => {
     link.click();
     document.body.removeChild(link);
     
-    // Check device and show tutorial
-    const isMobile = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    setIsMobileDevice(isMobile);
-    setShowTutorial(true);
+    setShowTutorial(false);
+    setPendingDownload(null);
   };
 
   if (loading) {
@@ -225,7 +234,7 @@ const Examenes = () => {
                                    className="add-calendar-btn glass-panel"
                                    onClick={(e) => {
                                      e.stopPropagation();
-                                     generateICS(result.subject, result.career, cls);
+                                     handlePrepareDownload(result.subject, result.career, cls);
                                    }}
                                    title="Agendar las 4 fechas en tu celular o computadora"
                                  >
@@ -325,7 +334,7 @@ const Examenes = () => {
                                      className="add-calendar-btn glass-panel"
                                      onClick={(e) => {
                                        e.stopPropagation();
-                                       generateICS(subject, activeCareer, cls);
+                                       handlePrepareDownload(subject, activeCareer, cls);
                                      }}
                                      title="Agendar las 4 fechas en tu celular o computadora"
                                    >
@@ -355,7 +364,7 @@ const Examenes = () => {
       {showTutorial && (
         <div className="tutorial-modal-overlay fade-in">
           <div className="tutorial-modal">
-            <button className="close-modal-btn" onClick={() => setShowTutorial(false)}>
+            <button className="close-modal-btn" onClick={() => { setShowTutorial(false); setPendingDownload(null); }}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -379,7 +388,7 @@ const Examenes = () => {
                   <p><strong>Paso 3:</strong> Sube el archivo descargado y haz clic en importar.</p>
                 </div>
               )}
-              <button className="got-it-btn" onClick={() => setShowTutorial(false)}>¡Entendido!</button>
+              <button className="got-it-btn" onClick={executeDownload}>¡Entendido! Descargar ahora</button>
             </div>
           </div>
         </div>
