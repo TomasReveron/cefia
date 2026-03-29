@@ -64,33 +64,34 @@ const Examenes = () => {
       isAllDay = true;
     }
 
-    let icsContent = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//CEFIA//Examenes//ES\nCALSCALE:GREGORIAN\n";
+    // Windows y algunos clientes bloquean el ICS si no usa \r\n
+    let icsContent = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//CEFIA//Examenes//ES\r\nCALSCALE:GREGORIAN\r\n";
 
     partials.forEach(partial => {
        const parts = partial.date.split('/');
        if (parts.length === 3) {
          const fileDate = `${parts[2]}${parts[1]}${parts[0]}`;
-         const uid = `${fileDate}-${subject.replace(/\s/g, '')}-${partial.name.replace(/\s/g, '')}@cefia.usm.ve`;
+         const uid = `${fileDate}-${subject.replace(/[^a-zA-Z0-9]/g, '')}-${partial.name.replace(/\s/g, '')}@cefia.usm.ve`;
          
-         icsContent += "BEGIN:VEVENT\n";
-         icsContent += `UID:${uid}\n`;
-         icsContent += `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z\n`;
+         icsContent += "BEGIN:VEVENT\r\n";
+         icsContent += `UID:${uid}\r\n`;
+         icsContent += `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z\r\n`;
          
          if (isAllDay) {
-           icsContent += `DTSTART;VALUE=DATE:${fileDate}\n`;
+           icsContent += `DTSTART;VALUE=DATE:${fileDate}\r\n`;
          } else {
-           icsContent += `DTSTART:${fileDate}T${startTimeStr}\n`;
-           icsContent += `DTEND:${fileDate}T${endTimeStr}\n`;
+           icsContent += `DTSTART:${fileDate}T${startTimeStr}\r\n`;
+           icsContent += `DTEND:${fileDate}T${endTimeStr}\r\n`;
          }
          
-         icsContent += `SUMMARY:${partial.name} - ${subject}\n`;
-         icsContent += `DESCRIPTION:Profesor: ${cls.profesor || 'No asignado'}\\nSección: ${cls.seccion}\\nCarrera: ${career}\\nSala / Aula: ${cls.aula || 'Por definir'}\n`;
-         icsContent += `LOCATION:${cls.aula || 'Por definir'}\n`;
-         icsContent += "END:VEVENT\n";
+         icsContent += `SUMMARY:${partial.name} - ${subject}\r\n`;
+         icsContent += `DESCRIPTION:Profesor: ${cls.profesor || 'No asignado'}\\nSección: ${cls.seccion}\\nCarrera: ${career}\\nSala / Aula: ${cls.aula || 'Por definir'}\r\n`;
+         icsContent += `LOCATION:${cls.aula || 'Por definir'}\r\n`;
+         icsContent += "END:VEVENT\r\n";
        }
     });
 
-    icsContent += "END:VCALENDAR";
+    icsContent += "END:VCALENDAR\r\n";
 
     const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
     const link = document.createElement('a');
