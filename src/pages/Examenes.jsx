@@ -64,8 +64,14 @@ const Examenes = () => {
       isAllDay = true;
     }
 
-    // Windows y algunos clientes bloquean el ICS si no usa \r\n
-    let icsContent = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//CEFIA//Examenes//ES\r\nCALSCALE:GREGORIAN\r\n";
+    // METHOD:PUBLISH es el estandar oficial para calendarios de Android.
+    let icsContent = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//CEFIA//Examenes//ES\r\nCALSCALE:GREGORIAN\r\nMETHOD:PUBLISH\r\n";
+    
+    // Funcion para formatear texto y que Android Calendar no colapse por las comas, saltos o puntos y comas.
+    const formatIcsText = (str) => {
+      if (!str) return '';
+      return str.replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
+    };
 
     partials.forEach(partial => {
        const parts = partial.date.split('/');
@@ -84,9 +90,13 @@ const Examenes = () => {
            icsContent += `DTEND:${fileDate}T${endTimeStr}\r\n`;
          }
          
-         icsContent += `SUMMARY:${partial.name} - ${subject}\r\n`;
-         icsContent += `DESCRIPTION:Profesor: ${cls.profesor || 'No asignado'}\\nSección: ${cls.seccion}\\nCarrera: ${career}\\nSala / Aula: ${cls.aula || 'Por definir'}\r\n`;
-         icsContent += `LOCATION:${cls.aula || 'Por definir'}\r\n`;
+         const summary = formatIcsText(`${partial.name} - ${subject}`);
+         const description = formatIcsText(`Profesor: ${cls.profesor || 'No asignado'} | Sección: ${cls.seccion} | Carrera: ${career} | Aula: ${cls.aula || 'Por definir'}`);
+         const location = formatIcsText(cls.aula || 'Por definir');
+
+         icsContent += `SUMMARY:${summary}\r\n`;
+         icsContent += `DESCRIPTION:${description}\r\n`;
+         icsContent += `LOCATION:${location}\r\n`;
          icsContent += "END:VEVENT\r\n";
        }
     });
@@ -96,7 +106,7 @@ const Examenes = () => {
     const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
     const link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);
-    link.setAttribute('download', `${subject.replace(/\s+/g, '_')}_Examenes.ics`);
+    link.setAttribute('download', `${subject.replace(/[^a-zA-Z0-9]/g, '_')}_Examenes.ics`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
