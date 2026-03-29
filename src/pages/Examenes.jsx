@@ -10,7 +10,7 @@ const Examenes = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/exam_data.json')
+    fetch('/exam_data.json', { cache: 'no-cache' })
       .then(res => res.json())
       .then(json => {
         setData(json);

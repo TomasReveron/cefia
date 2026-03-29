@@ -53,21 +53,19 @@ try {
       if (materia && profesor && materia.trim().toUpperCase() !== 'MATERIA') {
         const key = `${getVal('ESCUELA')}-${materia.trim()}-${profesor.trim()}-${getVal('SECCION')}`;
         
-        if (!allExamsMap.has(key)) {
-          allExamsMap.set(key, {
-            escuela: getVal('ESCUELA'),
-            materia: materia.trim(),
-            profesor: profesor.trim(),
-            seccion: getVal('SECCION'),
-            aula: getVal('AULA'),
-            hora: getVal('HORA'),
-            dia: getVal('DIA') || sheetName,
-            parcial_1: formatDate(getVal('I PARCIAL') || getVal('1 PARCIAL') || getVal('PARCIAL I')),
-            parcial_2: formatDate(getVal('II PARCIAL') || getVal('2 PARCIAL') || getVal('PARCIAL II')),
-            parcial_3: formatDate(getVal('III PARCIAL') || getVal('3 PARCIAL') || getVal('PARCIAL III')),
-            parcial_4: formatDate(getVal('IV PARCIAL') || getVal('4 PARCIAL') || getVal('PARCIAL IV'))
-          });
-        }
+        allExamsMap.set(key, {
+          escuela: getVal('ESCUELA'),
+          materia: materia.trim(),
+          profesor: profesor.trim(),
+          seccion: getVal('SECCION'),
+          aula: getVal('AULA'),
+          hora: getVal('HORA'),
+          dia: getVal('DIA') || sheetName,
+          parcial_1: formatDate(getVal('I PARCIAL') || getVal('1 PARCIAL') || getVal('PARCIAL I')),
+          parcial_2: formatDate(getVal('II PARCIAL') || getVal('2 PARCIAL') || getVal('PARCIAL II')),
+          parcial_3: formatDate(getVal('III PARCIAL') || getVal('3 PARCIAL') || getVal('PARCIAL III')),
+          parcial_4: formatDate(getVal('IV PARCIAL') || getVal('4 PARCIAL') || getVal('PARCIAL IV'))
+        });
       }
     });
   });
