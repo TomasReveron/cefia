@@ -31,8 +31,18 @@ const Examenes = () => {
     setActiveSubject(activeSubject === subjectId ? '' : subjectId);
   };
 
-  const getGoogleCalendarUrl = (subject, career, partialName, partialDate, cls) => {
-    if (!partialDate || partialDate === '-' || partialDate.trim() === '') return undefined;
+  const generateICS = (subject, career, cls) => {
+    const partials = [
+      { name: '1er Parcial', date: cls.parcial_1 },
+      { name: '2do Parcial', date: cls.parcial_2 },
+      { name: '3er Parcial', date: cls.parcial_3 },
+      { name: '4to Parcial', date: cls.parcial_4 },
+    ].filter(p => p.date && p.date !== '-' && p.date.trim() !== '');
+
+    if (partials.length === 0) {
+      alert("No hay fechas confirmadas para agregar al calendario.");
+      return;
+    }
 
     let startTimeStr = "080000";
     let endTimeStr = "100000";
@@ -54,28 +64,41 @@ const Examenes = () => {
       isAllDay = true;
     }
 
-    const parts = partialDate.split('/');
-    if (parts.length !== 3) return undefined;
-    
-    const fileDate = `${parts[2]}${parts[1]}${parts[0]}`;
-    let datesParam = '';
+    let icsContent = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//CEFIA//Examenes//ES\nCALSCALE:GREGORIAN\n";
 
-    if (isAllDay) {
-      // Para Todo el Día, requerimos la fecha + 1 día en Google Calendar
-      const d = new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
-      d.setDate(d.getDate() + 1);
-      const nextDay = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
-      datesParam = `${fileDate}/${nextDay}`;
-    } else {
-      datesParam = `${fileDate}T${startTimeStr}/${fileDate}T${endTimeStr}`;
-    }
+    partials.forEach(partial => {
+       const parts = partial.date.split('/');
+       if (parts.length === 3) {
+         const fileDate = `${parts[2]}${parts[1]}${parts[0]}`;
+         const uid = `${fileDate}-${subject.replace(/\s/g, '')}-${partial.name.replace(/\s/g, '')}@cefia.usm.ve`;
+         
+         icsContent += "BEGIN:VEVENT\n";
+         icsContent += `UID:${uid}\n`;
+         icsContent += `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z\n`;
+         
+         if (isAllDay) {
+           icsContent += `DTSTART;VALUE=DATE:${fileDate}\n`;
+         } else {
+           icsContent += `DTSTART:${fileDate}T${startTimeStr}\n`;
+           icsContent += `DTEND:${fileDate}T${endTimeStr}\n`;
+         }
+         
+         icsContent += `SUMMARY:${partial.name} - ${subject}\n`;
+         icsContent += `DESCRIPTION:Profesor: ${cls.profesor || 'No asignado'}\\nSección: ${cls.seccion}\\nCarrera: ${career}\\nSala / Aula: ${cls.aula || 'Por definir'}\n`;
+         icsContent += `LOCATION:${cls.aula || 'Por definir'}\n`;
+         icsContent += "END:VEVENT\n";
+       }
+    });
 
-    const text = encodeURIComponent(`${partialName} - ${subject}`);
-    const details = encodeURIComponent(`Profesor: ${cls.profesor || 'No asignado'}\nSección: ${cls.seccion}\nCarrera: ${career}`);
-    const location = encodeURIComponent(cls.aula || 'Por definir');
-    const ctz = encodeURIComponent('America/Caracas');
+    icsContent += "END:VCALENDAR";
 
-    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${datesParam}&details=${details}&location=${location}&ctz=${ctz}`;
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.setAttribute('download', `${subject.replace(/\s+/g, '_')}_Examenes.ics`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   if (loading) {
@@ -175,27 +198,27 @@ const Examenes = () => {
                                  </div>
                                  <div className="card-divider"></div>
                                  <div className="parciales-grid">
-                                   <a className="parcial-item" href={getGoogleCalendarUrl(result.subject, result.career, "1er Parcial", cls.parcial_1, cls)} target="_blank" rel="noopener noreferrer">
-                                     <span className="p-label">1er Parcial</span>
-                                     <span className="p-date">{cls.parcial_1}</span>
-                                     <span className="p-icon" title="Añadir a Google Calendar"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
-                                   </a>
-                                   <a className="parcial-item" href={getGoogleCalendarUrl(result.subject, result.career, "2do Parcial", cls.parcial_2, cls)} target="_blank" rel="noopener noreferrer">
-                                     <span className="p-label">2do Parcial</span>
-                                     <span className="p-date">{cls.parcial_2}</span>
-                                     <span className="p-icon" title="Añadir a Google Calendar"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
-                                   </a>
-                                   <a className="parcial-item" href={getGoogleCalendarUrl(result.subject, result.career, "3er Parcial", cls.parcial_3, cls)} target="_blank" rel="noopener noreferrer">
-                                     <span className="p-label">3er Parcial</span>
-                                     <span className="p-date">{cls.parcial_3}</span>
-                                     <span className="p-icon" title="Añadir a Google Calendar"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
-                                   </a>
-                                   <a className="parcial-item" href={getGoogleCalendarUrl(result.subject, result.career, "4to Parcial", cls.parcial_4, cls)} target="_blank" rel="noopener noreferrer">
-                                     <span className="p-label">4to Parcial</span>
-                                     <span className="p-date">{cls.parcial_4}</span>
-                                     <span className="p-icon" title="Añadir a Google Calendar"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
-                                   </a>
+                                   <div className="parcial-item"><span className="p-label">1er Parcial</span><span className="p-date">{cls.parcial_1}</span></div>
+                                   <div className="parcial-item"><span className="p-label">2do Parcial</span><span className="p-date">{cls.parcial_2}</span></div>
+                                   <div className="parcial-item"><span className="p-label">3er Parcial</span><span className="p-date">{cls.parcial_3}</span></div>
+                                   <div className="parcial-item"><span className="p-label">4to Parcial</span><span className="p-date">{cls.parcial_4}</span></div>
                                  </div>
+                                 <button 
+                                   className="add-calendar-btn glass-panel"
+                                   onClick={(e) => {
+                                     e.stopPropagation();
+                                     generateICS(result.subject, result.career, cls);
+                                   }}
+                                   title="Agendar las 4 fechas en tu celular o computadora"
+                                 >
+                                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="calendar-icon">
+                                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                      <line x1="16" y1="2" x2="16" y2="6"></line>
+                                      <line x1="8" y1="2" x2="8" y2="6"></line>
+                                      <line x1="3" y1="10" x2="21" y2="10"></line>
+                                    </svg>
+                                    Añadir al Calendario
+                                 </button>
                               </div>
                             </div>
                           ))}
@@ -274,27 +297,28 @@ const Examenes = () => {
                                    <div className="card-divider"></div>
                                    
                                    <div className="parciales-grid">
-                                     <a className="parcial-item" href={getGoogleCalendarUrl(subject, activeCareer, "1er Parcial", cls.parcial_1, cls)} target="_blank" rel="noopener noreferrer">
-                                       <span className="p-label">1er Parcial</span>
-                                       <span className="p-date">{cls.parcial_1}</span>
-                                       <span className="p-icon" title="Añadir a Google Calendar"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
-                                     </a>
-                                     <a className="parcial-item" href={getGoogleCalendarUrl(subject, activeCareer, "2do Parcial", cls.parcial_2, cls)} target="_blank" rel="noopener noreferrer">
-                                       <span className="p-label">2do Parcial</span>
-                                       <span className="p-date">{cls.parcial_2}</span>
-                                       <span className="p-icon" title="Añadir a Google Calendar"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
-                                     </a>
-                                     <a className="parcial-item" href={getGoogleCalendarUrl(subject, activeCareer, "3er Parcial", cls.parcial_3, cls)} target="_blank" rel="noopener noreferrer">
-                                       <span className="p-label">3er Parcial</span>
-                                       <span className="p-date">{cls.parcial_3}</span>
-                                       <span className="p-icon" title="Añadir a Google Calendar"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
-                                     </a>
-                                     <a className="parcial-item" href={getGoogleCalendarUrl(subject, activeCareer, "4to Parcial", cls.parcial_4, cls)} target="_blank" rel="noopener noreferrer">
-                                       <span className="p-label">4to Parcial</span>
-                                       <span className="p-date">{cls.parcial_4}</span>
-                                       <span className="p-icon" title="Añadir a Google Calendar"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
-                                     </a>
+                                     <div className="parcial-item"><span className="p-label">1er Parcial</span><span className="p-date">{cls.parcial_1}</span></div>
+                                     <div className="parcial-item"><span className="p-label">2do Parcial</span><span className="p-date">{cls.parcial_2}</span></div>
+                                     <div className="parcial-item"><span className="p-label">3er Parcial</span><span className="p-date">{cls.parcial_3}</span></div>
+                                     <div className="parcial-item"><span className="p-label">4to Parcial</span><span className="p-date">{cls.parcial_4}</span></div>
                                    </div>
+                                   
+                                   <button 
+                                     className="add-calendar-btn glass-panel"
+                                     onClick={(e) => {
+                                       e.stopPropagation();
+                                       generateICS(subject, activeCareer, cls);
+                                     }}
+                                     title="Agendar las 4 fechas en tu celular o computadora"
+                                   >
+                                      <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="calendar-icon">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                                      </svg>
+                                      Añadir al Calendario
+                                   </button>
                                 </div>
                               </div>
                             ))}

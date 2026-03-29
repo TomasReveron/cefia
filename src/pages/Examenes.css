@@ -216,31 +216,7 @@
 .parcial-item {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
-  text-decoration: none;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 0.8rem;
-  border-radius: 8px;
-  border: 1px solid transparent;
-  transition: all 0.2s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-[data-theme='light'] .parcial-item {
-  background: rgba(0, 0, 0, 0.04);
-}
-
-.parcial-item[href]:not([href=""]):hover {
-  background: rgba(76, 95, 217, 0.1);
-  border-color: rgba(76, 95, 217, 0.3);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.parcial-item[href=""], .parcial-item:not([href]) {
-  pointer-events: none;
-  opacity: 0.6;
+  gap: 0.2rem;
 }
 
 .p-label {
@@ -252,24 +228,9 @@
 }
 
 .p-date {
-  font-size: 0.9rem;
-  font-weight: 700;
+  font-size: 0.85rem;
+  font-weight: 600;
   color: var(--text-primary);
-}
-
-.p-icon {
-  position: absolute;
-  top: 0.8rem;
-  right: 0.8rem;
-  color: var(--accent);
-  opacity: 0;
-  transform: scale(0.8) translateX(-5px);
-  transition: all 0.2s ease;
-}
-
-.parcial-item[href]:not([href=""]):hover .p-icon {
-  opacity: 1;
-  transform: scale(1.1) translateX(0);
 }
 
 /* Buscador */
@@ -362,6 +323,36 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+/* Botón Añadir al Calendario */
+.add-calendar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 1rem;
+  background: rgba(76, 95, 217, 0.15);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.add-calendar-btn:hover {
+  background: var(--accent);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(76, 95, 217, 0.3);
+}
+
+.calendar-icon {
+  flex-shrink: 0;
 }
 
 
