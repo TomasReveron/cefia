@@ -70,7 +70,7 @@ const Examenes = () => {
     // Funcion para formatear texto y que Android Calendar no colapse por las comas, saltos o puntos y comas.
     const formatIcsText = (str) => {
       if (!str) return '';
-      return str.replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
+      return String(str).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
     };
 
     partials.forEach(partial => {
