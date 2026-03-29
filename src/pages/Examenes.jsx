@@ -8,6 +8,8 @@ const Examenes = () => {
   const [activeSubject, setActiveSubject] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
+  const [showTutorial, setShowTutorial] = useState(false);
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
 
   useEffect(() => {
     fetch('/exam_data.json', { cache: 'no-cache' })
@@ -110,6 +112,11 @@ const Examenes = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    
+    // Check device and show tutorial
+    const isMobile = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    setIsMobileDevice(isMobile);
+    setShowTutorial(true);
   };
 
   if (loading) {
@@ -344,6 +351,39 @@ const Examenes = () => {
           </>
         )}
       </div>
+
+      {showTutorial && (
+        <div className="tutorial-modal-overlay fade-in">
+          <div className="tutorial-modal">
+            <button className="close-modal-btn" onClick={() => setShowTutorial(false)}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+            <div className="tutorial-content">
+              <h3>Archivo Generado Correctamente 🎉</h3>
+              {isMobileDevice ? (
+                <div className="tutorial-steps">
+                  <p><strong>Paso 1:</strong> Abre el archivo <code>calendario.ics</code> desde tus notificaciones o gestor de descargas del teléfono.</p>
+                  <p><strong>Paso 2:</strong> Tu dispositivo te preguntará con qué aplicación abrirlo.</p>
+                  <p><strong>Paso 3:</strong> Selecciona <strong>Google Calendar</strong> (o tu app de calendario por defecto).</p>
+                  <p><strong>Paso 4:</strong> Selecciona "Añadir a mi calendario" o "Importar" para agendar las 4 fechas de una sola vez.</p>
+                </div>
+              ) : (
+                <div className="tutorial-steps">
+                  <p><strong>Opción Automática:</strong> Haz doble clic sobre el archivo descargado para agregarlo directamente si tienes la App de Calendario de Windows/Mac instalada.</p>
+                  <div className="tutorial-divider">O agrega a Google Calendar (Web):</div>
+                  <p><strong>Paso 1:</strong> Ve a <a href="https://calendar.google.com/" target="_blank" rel="noreferrer" className="calendar-link">Google Calendar</a> en tu navegador.</p>
+                  <p><strong>Paso 2:</strong> En la barra lateral izquierda, dale al botón <strong>+</strong> situado junto a "Otros calendarios" y elige <strong>"Importar"</strong>.</p>
+                  <p><strong>Paso 3:</strong> Sube el archivo descargado y haz clic en importar.</p>
+                </div>
+              )}
+              <button className="got-it-btn" onClick={() => setShowTutorial(false)}>¡Entendido!</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

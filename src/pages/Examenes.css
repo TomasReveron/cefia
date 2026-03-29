@@ -416,3 +416,154 @@
   }
 }
 
+/* Tutorial Modal */
+.tutorial-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.tutorial-modal {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  animation: modalPop 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@keyframes modalPop {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.close-modal-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--text-secondary);
+  transition: var(--transition);
+  background: rgba(120, 120, 120, 0.15);
+}
+
+.close-modal-btn:hover {
+  background: var(--accent);
+  color: white;
+}
+
+.close-modal-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.tutorial-content {
+  padding: 2.5rem 2rem 2rem 2rem;
+}
+
+.tutorial-content h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.tutorial-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.tutorial-steps strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.tutorial-steps code {
+  background: rgba(255,255,255,0.05);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: inherit;
+  font-weight: 600;
+  color: var(--accent-hover);
+  border: 1px solid var(--border-color);
+}
+
+[data-theme='light'] .tutorial-steps code {
+  background: rgba(0,0,0,0.03);
+}
+
+.tutorial-divider {
+  width: 100%;
+  text-align: center;
+  margin: 0.8rem 0;
+  font-weight: 600;
+  color: var(--text-secondary);
+  position: relative;
+  font-size: 0.85rem;
+}
+
+.tutorial-divider::before, 
+.tutorial-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 25%;
+  height: 1px;
+  background: var(--border-color);
+}
+
+.tutorial-divider::before { left: 0; }
+.tutorial-divider::after { right: 0; }
+
+.calendar-link {
+  color: var(--accent);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.calendar-link:hover {
+  color: var(--accent-hover);
+}
+
+.got-it-btn {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 2rem;
+  background: var(--accent);
+  color: white;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: var(--transition);
+  border: none;
+}
+
+.got-it-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
+}
+
