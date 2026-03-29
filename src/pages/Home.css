@@ -1,0 +1,101 @@
+/* Hero Section specific styles */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 70px);
+  min-height: 500px;
+  background-image: url('/fondo-inicio.jpg'); /* The generated image we copied to public */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #ffffff;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Dark bluish gradient that perfectly harmonizes with the logo */
+  background: linear-gradient(180deg, rgba(30, 37, 50, 0.75) 0%, rgba(30, 37, 50, 0.4) 100%);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  padding: 0 2rem;
+  animation: slideUp 1s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1.25rem;
+  line-height: 1.1;
+  text-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  letter-spacing: -1px;
+}
+
+.hero-content p {
+  font-size: 1.25rem;
+  margin-bottom: 2.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  font-weight: 500;
+}
+
+.cta-button {
+  padding: 1rem 3rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background-color: var(--accent);
+  color: white;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(76, 95, 217, 0.4);
+}
+
+.cta-button:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(255, 140, 0, 0.5);
+  color: white;
+}
+
+.home-content {
+  padding: 4rem 2rem;
+}
+
+/* Container constraints for future sections */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive constraints */
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+  .hero-content p {
+    font-size: 1.1rem;
+  }
+}

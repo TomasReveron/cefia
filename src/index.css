@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Lighter dark mode para contraste con el logo */
+  --bg-color: #1e2532;
+  --surface-color: rgba(40, 50, 68, 0.7);
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  
+  /* Paleta basada en el logo (azules y naranja) */
+  --accent: #4c5fd9; /* Azul rey */
+  --accent-hover: #ff8c00; /* Naranja */
+  
+  --border-color: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(30, 37, 50, 0.8);
+  --glass-blur: 16px;
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+[data-theme='light'] {
+  --bg-color: #f8fafc;
+  --surface-color: rgba(255, 255, 255, 0.8);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  
+  /* Paleta basada en el logo para modo claro */
+  --accent: #253c9e; /* Azul obscuro del logo */
+  --accent-hover: #ff8c00;
+  
+  --border-color: rgba(0, 0, 0, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.85);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+}
+
+/* Base styles for premium feel */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-bottom: 1px solid var(--border-color);
+}

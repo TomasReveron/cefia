@@ -1,0 +1,316 @@
+import { useState, useEffect } from 'react';
+import './Examenes.css';
+
+const Examenes = () => {
+  const [data, setData] = useState({});
+  const [careers, setCareers] = useState([]);
+  const [activeCareer, setActiveCareer] = useState('');
+  const [activeSubject, setActiveSubject] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/exam_data.json')
+      .then(res => res.json())
+      .then(json => {
+        setData(json);
+        const careerList = Object.keys(json).sort();
+        setCareers(careerList);
+        if (careerList.length > 0) {
+          setActiveCareer(careerList[0]);
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Error cargando los exámenes:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  const toggleSubject = (subjectId) => {
+    setActiveSubject(activeSubject === subjectId ? '' : subjectId);
+  };
+
+  const getGoogleCalendarUrl = (subject, career, partialName, partialDate, cls) => {
+    if (!partialDate || partialDate === '-' || partialDate.trim() === '') return undefined;
+
+    let startTimeStr = "080000";
+    let endTimeStr = "100000";
+    let isAllDay = false;
+
+    if (cls.hora) {
+      const timeMatch = cls.hora.match(/(\d{1,2}):(\d{2})\s*(a|A|-)\s*(\d{1,2}):(\d{2})/i);
+      if (timeMatch) {
+         let startH = parseInt(timeMatch[1], 10);
+         let startM = timeMatch[2];
+         let endH = parseInt(timeMatch[4], 10);
+         let endM = timeMatch[5];
+         startTimeStr = `${String(startH).padStart(2, '0')}${startM}00`;
+         endTimeStr = `${String(endH).padStart(2, '0')}${endM}00`;
+      } else {
+         isAllDay = true;
+      }
+    } else {
+      isAllDay = true;
+    }
+
+    const parts = partialDate.split('/');
+    if (parts.length !== 3) return undefined;
+    
+    const fileDate = `${parts[2]}${parts[1]}${parts[0]}`;
+    let datesParam = '';
+
+    if (isAllDay) {
+      // Para Todo el Día, requerimos la fecha + 1 día en Google Calendar
+      const d = new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
+      d.setDate(d.getDate() + 1);
+      const nextDay = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
+      datesParam = `${fileDate}/${nextDay}`;
+    } else {
+      datesParam = `${fileDate}T${startTimeStr}/${fileDate}T${endTimeStr}`;
+    }
+
+    const text = encodeURIComponent(`${partialName} - ${subject}`);
+    const details = encodeURIComponent(`Profesor: ${cls.profesor || 'No asignado'}\nSección: ${cls.seccion}\nCarrera: ${career}`);
+    const location = encodeURIComponent(cls.aula || 'Por definir');
+    const ctz = encodeURIComponent('America/Caracas');
+
+    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${datesParam}&details=${details}&location=${location}&ctz=${ctz}`;
+  };
+
+  if (loading) {
+    return <div className="examenes-page fade-in center-message">Cargando fechas de exámenes...</div>;
+  }
+
+  // Lógica de búsqueda
+  let searchResults = [];
+  if (searchTerm.trim().length > 0) {
+    const term = searchTerm.toLowerCase();
+    Object.keys(data).forEach(c => {
+      Object.keys(data[c]).forEach(s => {
+        if (s.toLowerCase().includes(term)) {
+          searchResults.push({ career: c, subject: s, classes: data[c][s] });
+        }
+      });
+    });
+    // Ordenar alfabéticamente por materia
+    searchResults.sort((a, b) => a.subject.localeCompare(b.subject));
+  }
+
+  const subjectsForCareer = data[activeCareer] || {};
+  const subjectNames = Object.keys(subjectsForCareer).sort();
+
+  return (
+    <div className="examenes-page fade-in">
+      <div className="container" style={{ padding: '4rem 2rem' }}>
+        <h1 className="page-title">Fechas de Exámenes</h1>
+        <p className="page-subtitle">Explora el calendario principal de evaluaciones de la facultad de forma instantánea.</p>
+        
+        {/* Buscador de Materias */}
+        <div className="search-container glass-panel">
+          <svg className="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input 
+            type="text" 
+            className="search-input" 
+            placeholder="Buscar materia (ej. Cálculo)..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          {searchTerm && (
+            <button className="clear-search-btn" onClick={() => setSearchTerm('')} aria-label="Limpiar búsqueda">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          )}
+        </div>
+
+        {searchTerm.trim().length > 0 ? (
+          /* Nivel: Resultados de Búsqueda */
+          <div className="subjects-container search-results-view">
+            {searchResults.length === 0 ? (
+              <p className="empty-message">No se encontraron materias que coincidan con "{searchTerm}".</p>
+            ) : (
+              searchResults.map((result, idx) => {
+                const searchSubjectId = `${result.career}-${result.subject}`;
+                const isOpen = activeSubject === searchSubjectId;
+                
+                return (
+                  <div key={idx} className={`subject-accordion glass-panel ${isOpen ? 'open' : ''}`}>
+                    <button 
+                      className="subject-header"
+                      onClick={() => toggleSubject(searchSubjectId)}
+                      aria-expanded={isOpen}
+                    >
+                      <div className="subject-header-title">
+                        <h3>{result.subject}</h3>
+                        <span className="career-badge">{result.career}</span>
+                      </div>
+                      <div className={`accordion-icon ${isOpen ? 'rotated' : ''}`}>
+                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                      </div>
+                    </button>
+                    
+                    {isOpen && (
+                      <div className="subject-content">
+                        <div className="cards-grid">
+                          {result.classes.map((cls, cIdx) => (
+                            <div key={cIdx} className="class-card">
+                              <div className="card-header">
+                                <h4 className="card-prof">{cls.profesor || "Sin Profesor"}</h4>
+                                <span className="card-section">Sección {cls.seccion}</span>
+                              </div>
+                              <div className="card-body">
+                                 <div className="card-info-row">
+                                   <strong>Día y Hora:</strong> <span>{cls.dia} a las {cls.hora || "-"}</span>
+                                 </div>
+                                 <div className="card-info-row">
+                                   <strong>Aula:</strong> <span>{cls.aula || 'No asignada'}</span>
+                                 </div>
+                                 <div className="card-divider"></div>
+                                 <div className="parciales-grid">
+                                   <a className="parcial-item" href={getGoogleCalendarUrl(result.subject, result.career, "1er Parcial", cls.parcial_1, cls)} target="_blank" rel="noopener noreferrer">
+                                     <span className="p-label">1er Parcial</span>
+                                     <span className="p-date">{cls.parcial_1}</span>
+                                     <span className="p-icon" title="Añadir a Google Calendar"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                                   </a>
+                                   <a className="parcial-item" href={getGoogleCalendarUrl(result.subject, result.career, "2do Parcial", cls.parcial_2, cls)} target="_blank" rel="noopener noreferrer">
+                                     <span className="p-label">2do Parcial</span>
+                                     <span className="p-date">{cls.parcial_2}</span>
+                                     <span className="p-icon" title="Añadir a Google Calendar"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                                   </a>
+                                   <a className="parcial-item" href={getGoogleCalendarUrl(result.subject, result.career, "3er Parcial", cls.parcial_3, cls)} target="_blank" rel="noopener noreferrer">
+                                     <span className="p-label">3er Parcial</span>
+                                     <span className="p-date">{cls.parcial_3}</span>
+                                     <span className="p-icon" title="Añadir a Google Calendar"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                                   </a>
+                                   <a className="parcial-item" href={getGoogleCalendarUrl(result.subject, result.career, "4to Parcial", cls.parcial_4, cls)} target="_blank" rel="noopener noreferrer">
+                                     <span className="p-label">4to Parcial</span>
+                                     <span className="p-date">{cls.parcial_4}</span>
+                                     <span className="p-icon" title="Añadir a Google Calendar"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                                   </a>
+                                 </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })
+            )}
+          </div>
+        ) : (
+          /* Nivel: Navegación Tradicional */
+          <>
+            {/* Nivel 1: Pestañas de Carreras */}
+            <div className="careers-tabs">
+              {careers.map((career) => (
+                <button
+                  key={career}
+                  className={`career-tab ${activeCareer === career ? 'active' : ''}`}
+                  onClick={() => {
+                    setActiveCareer(career);
+                    setActiveSubject('');
+                  }}
+                >
+                  {career}
+                </button>
+              ))}
+            </div>
+
+            {/* Nivel 2: Acordeones de Materias */}
+            <div className="subjects-container">
+              {subjectNames.length === 0 ? (
+                <p className="empty-message">No hay materias disponibles para esta escuela.</p>
+              ) : (
+                subjectNames.map((subject) => {
+                  const isOpen = activeSubject === subject;
+                  const classes = subjectsForCareer[subject];
+
+                  return (
+                    <div key={subject} className={`subject-accordion glass-panel ${isOpen ? 'open' : ''}`}>
+                      <button 
+                        className="subject-header"
+                        onClick={() => toggleSubject(subject)}
+                        aria-expanded={isOpen}
+                      >
+                        <div className="subject-header-title">
+                          <h3>{subject}</h3>
+                        </div>
+                        <div className={`accordion-icon ${isOpen ? 'rotated' : ''}`}>
+                          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                          </svg>
+                        </div>
+                      </button>
+                      
+                      {/* Nivel 3: Tarjetas por Sección */}
+                      {isOpen && (
+                        <div className="subject-content">
+                          <div className="cards-grid">
+                            {classes.map((cls, idx) => (
+                              <div key={idx} className="class-card">
+                                <div className="card-header">
+                                  <h4 className="card-prof">{cls.profesor || "Sin Profesor"}</h4>
+                                  <span className="card-section">Sección {cls.seccion}</span>
+                                </div>
+                                
+                                <div className="card-body">
+                                   <div className="card-info-row">
+                                     <strong>Día y Hora:</strong> <span>{cls.dia} a las {cls.hora || "-"}</span>
+                                   </div>
+                                   <div className="card-info-row">
+                                     <strong>Aula:</strong> <span>{cls.aula || 'No asignada'}</span>
+                                   </div>
+                                   
+                                   <div className="card-divider"></div>
+                                   
+                                   <div className="parciales-grid">
+                                     <a className="parcial-item" href={getGoogleCalendarUrl(subject, activeCareer, "1er Parcial", cls.parcial_1, cls)} target="_blank" rel="noopener noreferrer">
+                                       <span className="p-label">1er Parcial</span>
+                                       <span className="p-date">{cls.parcial_1}</span>
+                                       <span className="p-icon" title="Añadir a Google Calendar"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                                     </a>
+                                     <a className="parcial-item" href={getGoogleCalendarUrl(subject, activeCareer, "2do Parcial", cls.parcial_2, cls)} target="_blank" rel="noopener noreferrer">
+                                       <span className="p-label">2do Parcial</span>
+                                       <span className="p-date">{cls.parcial_2}</span>
+                                       <span className="p-icon" title="Añadir a Google Calendar"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                                     </a>
+                                     <a className="parcial-item" href={getGoogleCalendarUrl(subject, activeCareer, "3er Parcial", cls.parcial_3, cls)} target="_blank" rel="noopener noreferrer">
+                                       <span className="p-label">3er Parcial</span>
+                                       <span className="p-date">{cls.parcial_3}</span>
+                                       <span className="p-icon" title="Añadir a Google Calendar"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                                     </a>
+                                     <a className="parcial-item" href={getGoogleCalendarUrl(subject, activeCareer, "4to Parcial", cls.parcial_4, cls)} target="_blank" rel="noopener noreferrer">
+                                       <span className="p-label">4to Parcial</span>
+                                       <span className="p-date">{cls.parcial_4}</span>
+                                       <span className="p-icon" title="Añadir a Google Calendar"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                                     </a>
+                                   </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Examenes;
