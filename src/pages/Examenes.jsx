@@ -61,15 +61,25 @@ const Examenes = () => {
     let endTimeStr = "100000";
     let isAllDay = false;
 
-    if (cls.hora) {
-      const timeMatch = cls.hora.match(/(\d{1,2}):(\d{2})\s*(a|A|-)\s*(\d{1,2}):(\d{2})/i);
+    if (cls.hora && cls.hora !== '-') {
+      // Intentamos procesar el string de hora individual "HH:MM:SS a.m./p.m." o "HH:MM a/p"
+      const timeMatch = cls.hora.match(/(\d{1,2}):(\d{2})(?::\d{2})?\s*(a|p)/i);
+      
       if (timeMatch) {
          let startH = parseInt(timeMatch[1], 10);
-         let startM = timeMatch[2];
-         let endH = parseInt(timeMatch[4], 10);
-         let endM = timeMatch[5];
+         const startM = timeMatch[2];
+         const isPm = timeMatch[3].toLowerCase() === 'p';
+         
+         // Conversión a 24 horas
+         if (isPm && startH < 12) startH += 12;
+         if (!isPm && startH === 12) startH = 0;
+         
+         // Se asume 2 horas de duración del examen como estándar
+         let endH = startH + 2;
+         if (endH >= 24) endH -= 24;
+
          startTimeStr = `${String(startH).padStart(2, '0')}${startM}00`;
-         endTimeStr = `${String(endH).padStart(2, '0')}${endM}00`;
+         endTimeStr = `${String(endH).padStart(2, '0')}${startM}00`;
       } else {
          isAllDay = true;
       }
