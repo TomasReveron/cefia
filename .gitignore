@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Credentials
+.env
+.env*.local
+cefiapagina-firebase-adminsdk-fbsvc-5cb39a2fd3.json
+

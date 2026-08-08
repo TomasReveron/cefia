@@ -1,8 +1,15 @@
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase';
 import './Sidebar.css';
 
 const Sidebar = ({ isOpen, onClose }) => {
+  const [user, setUser] = useState(null);
+  const [role, setRole] = useState(null);
+  const navigate = useNavigate();
+
   // Prevent scrolling when sidebar is open
   useEffect(() => {
     if (isOpen) {
@@ -15,6 +22,39 @@ const Sidebar = ({ isOpen, onClose }) => {
       document.body.style.overflow = 'unset';
     };
   }, [isOpen]);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setUser(currentUser);
+      if (currentUser) {
+        try {
+          const userDocRef = doc(db, "usuarios", currentUser.uid);
+          const userSnap = await getDoc(userDocRef);
+          if (userSnap.exists()) {
+            setRole(userSnap.data().role || 'estudiante');
+          } else {
+            setRole('estudiante');
+          }
+        } catch (err) {
+          console.error("Error al obtener rol del usuario:", err);
+          setRole('estudiante');
+        }
+      } else {
+        setRole(null);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      onClose();
+      navigate('/');
+    } catch (err) {
+      console.error("Error al cerrar sesión:", err);
+    }
+  };
 
   const menuItems = [
     {
@@ -37,6 +77,16 @@ const Sidebar = ({ isOpen, onClose }) => {
           <line x1="8" x2="8" y1="2" y2="6"/>
           <line x1="3" x2="21" y1="10" y2="10"/>
           <path d="m9 16 2 2 4-4"/>
+        </svg>
+      )
+    },
+    {
+      name: 'Anuncios',
+      path: '/anuncios',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
+          <path d="M2 13h10l8 5V6l-8 5H2v2Z" />
         </svg>
       )
     },
@@ -103,6 +153,46 @@ const Sidebar = ({ isOpen, onClose }) => {
             </Link>
           ))}
         </nav>
+
+        {/* Sección de Administrador en la parte inferior */}
+        <div className="sidebar-admin-section">
+          {user ? (
+            <>
+              <div className={`admin-status-card role-${role}`}>
+                <span className="admin-status-title">
+                  {role === 'admin' ? 'Admin Conectado' : 'Estudiante Conectado'}
+                </span>
+                <span className="admin-status-email" title={user.email}>{user.email}</span>
+              </div>
+              <button className="sidebar-admin-btn admin-btn-logout" onClick={handleLogout}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16 17 21 12 16 7"></polyline>
+                  <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                Cerrar Sesión
+              </button>
+            </>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', width: '100%' }}>
+              <Link to="/login" className="sidebar-admin-btn admin-btn-login" onClick={onClose}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                Acceso
+              </Link>
+              <Link to="/register" className="sidebar-admin-btn admin-btn-register" onClick={onClose}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                  <path d="M8 21h8M12 17v8" />
+                </svg>
+                Registrarse
+              </Link>
+            </div>
+          )}
+        </div>
       </aside>
     </>
   );
