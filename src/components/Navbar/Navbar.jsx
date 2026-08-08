@@ -1,5 +1,5 @@
 import './Navbar.css';
-import ThemeToggle from './ThemeToggle';
+import ThemeToggle from '../ThemeToggle/ThemeToggle';
 
 const Navbar = ({ onMenuClick }) => {
   return (

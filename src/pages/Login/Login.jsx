@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../firebase';
+import { auth } from '../../firebase';
 import './Login.css';
 
 const Login = () => {
@@ -38,7 +38,7 @@ const Login = () => {
       // Update/Request Push Notification Token
       try {
         const { doc, updateDoc, arrayUnion } = await import('firebase/firestore');
-        const { db, requestForToken } = await import('../firebase');
+        const { db, requestForToken } = await import('../../firebase');
         
         const result = await requestForToken();
         if (result) {

@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import MainLayout from './components/MainLayout';
-import Home from './pages/Home';
-import Examenes from './pages/Examenes';
-import Anuncios from './pages/Anuncios';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import MainLayout from './components/MainLayout/MainLayout';
+import Home from './pages/Home/Home';
+import Examenes from './pages/Examenes/Examenes';
+import Anuncios from './pages/Anuncios/Anuncios';
+import Login from './pages/Login/Login';
+import Register from './pages/Register/Register';
 
 function App() {
   return (

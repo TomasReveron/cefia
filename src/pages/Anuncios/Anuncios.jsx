@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, getDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
-import { db, auth } from '../firebase';
+import { db, auth } from '../../firebase';
 import './Anuncios.css';
 
 const CATEGORIES = ["Todos", "Académico", "Eventos", "Urgente", "General"];
