@@ -3,6 +3,7 @@ import MainLayout from './components/MainLayout/MainLayout';
 import Home from './pages/Home/Home';
 import Examenes from './pages/Examenes/Examenes';
 import Anuncios from './pages/Anuncios/Anuncios';
+import Reportes from './pages/Reportes/Reportes';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 
@@ -14,6 +15,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="examenes" element={<Examenes />} />
           <Route path="anuncios" element={<Anuncios />} />
+          <Route path="reportes" element={<Reportes />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
         </Route>

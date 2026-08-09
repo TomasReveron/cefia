@@ -4,8 +4,8 @@
       {
         "profesor": "Acosta Heybart",
         "seccion": "B",
-        "aula": 912,
-        "hora": "12:00:00 p.m.",
+        "aula": "912",
+        "hora": "02:00:00 p.m. / 12:00:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
         "parcial_2": "15/05/2026",
@@ -17,7 +17,7 @@
       {
         "profesor": "Acosta Heybart",
         "seccion": "A",
-        "aula": 813,
+        "aula": "813",
         "hora": "04:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -30,7 +30,7 @@
       {
         "profesor": "Betancourt Orlando",
         "seccion": "A",
-        "aula": 711,
+        "aula": "711",
         "hora": "04:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -43,7 +43,7 @@
       {
         "profesor": "Betancourt Orlando",
         "seccion": "A",
-        "aula": 711,
+        "aula": "711",
         "hora": "04:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -56,7 +56,7 @@
       {
         "profesor": "Brutto Calogero",
         "seccion": "A",
-        "aula": 711,
+        "aula": "711",
         "hora": "04:00:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -69,7 +69,7 @@
       {
         "profesor": "Camargo Pedro",
         "seccion": "B",
-        "aula": 713,
+        "aula": "713",
         "hora": "04:00:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -82,7 +82,7 @@
       {
         "profesor": "Camargo Pedro",
         "seccion": "A",
-        "aula": 911,
+        "aula": "911",
         "hora": "10:30:00 a.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -95,7 +95,7 @@
       {
         "profesor": "Cela Francisco",
         "seccion": "A",
-        "aula": 921,
+        "aula": "921",
         "hora": "12:30:00 p.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -108,7 +108,7 @@
       {
         "profesor": "Cela Francisco",
         "seccion": "A",
-        "aula": 914,
+        "aula": "914",
         "hora": "10:30:00 a.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -121,7 +121,7 @@
       {
         "profesor": "Crescenzi Shakin",
         "seccion": "A",
-        "aula": 921,
+        "aula": "921",
         "hora": "05:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -134,7 +134,7 @@
       {
         "profesor": "Crescenzi Shakin",
         "seccion": "A",
-        "aula": 914,
+        "aula": "914",
         "hora": "02:00:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -147,7 +147,7 @@
       {
         "profesor": "De Freitas Lisette",
         "seccion": "A",
-        "aula": 711,
+        "aula": "711",
         "hora": "01:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -160,7 +160,7 @@
       {
         "profesor": "Espinoza Andres",
         "seccion": "A",
-        "aula": 712,
+        "aula": "712",
         "hora": "12:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -173,7 +173,7 @@
       {
         "profesor": "Franco Nelson",
         "seccion": "A",
-        "aula": 711,
+        "aula": "711",
         "hora": "04:00:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -186,7 +186,7 @@
       {
         "profesor": "Franco Nelson",
         "seccion": "A",
-        "aula": 714,
+        "aula": "714",
         "hora": "04:00:00 p.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -199,7 +199,7 @@
       {
         "profesor": "Hernandez Fernanda",
         "seccion": "A",
-        "aula": 713,
+        "aula": "713",
         "hora": "03:30:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -212,7 +212,7 @@
       {
         "profesor": "Kuslaba Gregorio",
         "seccion": "B",
-        "aula": 702,
+        "aula": "702",
         "hora": "12:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -225,7 +225,7 @@
       {
         "profesor": "Montilla Ruben",
         "seccion": "A",
-        "aula": 934,
+        "aula": "934",
         "hora": "04:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -238,7 +238,7 @@
       {
         "profesor": "Ossa Luis",
         "seccion": "B",
-        "aula": 702,
+        "aula": "702",
         "hora": "03:00:00 p.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -251,7 +251,7 @@
       {
         "profesor": "Ossa Luis",
         "seccion": "B",
-        "aula": 703,
+        "aula": "703",
         "hora": "01:00:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -264,7 +264,7 @@
       {
         "profesor": "Parra Juan",
         "seccion": "A",
-        "aula": 701,
+        "aula": "701",
         "hora": "02:15:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -277,7 +277,7 @@
       {
         "profesor": "Parra Juan",
         "seccion": "A",
-        "aula": 701,
+        "aula": "701",
         "hora": "02:15:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -290,7 +290,7 @@
       {
         "profesor": "Perez Alfredo",
         "seccion": "A",
-        "aula": 701,
+        "aula": "701",
         "hora": "10:00:00 a.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -303,7 +303,7 @@
       {
         "profesor": "Ramirez Jhonatan",
         "seccion": "A",
-        "aula": 822,
+        "aula": "822",
         "hora": "04:00:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -316,7 +316,7 @@
       {
         "profesor": "Rodiz Marcos",
         "seccion": "B",
-        "aula": 914,
+        "aula": "914",
         "hora": "04:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -329,7 +329,7 @@
       {
         "profesor": "Sanchez Antonio",
         "seccion": "B",
-        "aula": 912,
+        "aula": "912",
         "hora": "02:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -342,7 +342,7 @@
       {
         "profesor": "Sanchez Antonio",
         "seccion": "B",
-        "aula": 921,
+        "aula": "921",
         "hora": "01:00:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -355,7 +355,7 @@
       {
         "profesor": "Sanchez Antonio",
         "seccion": "B",
-        "aula": 714,
+        "aula": "714",
         "hora": "04:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -368,7 +368,7 @@
       {
         "profesor": "Silva Humberto",
         "seccion": "B",
-        "aula": 921,
+        "aula": "921",
         "hora": "03:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -381,7 +381,7 @@
       {
         "profesor": "Silva Humberto",
         "seccion": "B",
-        "aula": 712,
+        "aula": "712",
         "hora": "04:00:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -394,7 +394,7 @@
       {
         "profesor": "Silva Humberto",
         "seccion": "B",
-        "aula": 901,
+        "aula": "901",
         "hora": "02:00:00 p.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -409,7 +409,7 @@
       {
         "profesor": "Acosta Heybart",
         "seccion": "A",
-        "aula": 813,
+        "aula": "813",
         "hora": "04:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -422,7 +422,7 @@
       {
         "profesor": "Betancourt Luis",
         "seccion": "A",
-        "aula": 912,
+        "aula": "912",
         "hora": "04:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -435,7 +435,7 @@
       {
         "profesor": "Betancourt Luis",
         "seccion": "A",
-        "aula": 911,
+        "aula": "911",
         "hora": "04:00:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -448,7 +448,7 @@
       {
         "profesor": "Betancourt Orlando",
         "seccion": "A",
-        "aula": 711,
+        "aula": "711",
         "hora": "04:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -461,7 +461,7 @@
       {
         "profesor": "Betancourt Orlando",
         "seccion": "A",
-        "aula": 711,
+        "aula": "711",
         "hora": "04:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -474,7 +474,7 @@
       {
         "profesor": "Brutto Calogero",
         "seccion": "A",
-        "aula": 711,
+        "aula": "711",
         "hora": "04:00:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -487,7 +487,7 @@
       {
         "profesor": "Camargo Pedro",
         "seccion": "A",
-        "aula": 911,
+        "aula": "911",
         "hora": "10:30:00 a.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -500,7 +500,7 @@
       {
         "profesor": "De Freitas Lisette",
         "seccion": "A",
-        "aula": 711,
+        "aula": "711",
         "hora": "01:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -513,7 +513,7 @@
       {
         "profesor": "Espinoza Andres",
         "seccion": "A",
-        "aula": 911,
+        "aula": "911",
         "hora": "12:00:00 p.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -526,7 +526,7 @@
       {
         "profesor": "Espinoza Andres",
         "seccion": "A",
-        "aula": 712,
+        "aula": "712",
         "hora": "12:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -539,7 +539,7 @@
       {
         "profesor": "Gonzalez Nestor",
         "seccion": "A",
-        "aula": 811,
+        "aula": "811",
         "hora": "03:30:00 p.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -552,7 +552,7 @@
       {
         "profesor": "Gonzalez Nestor",
         "seccion": "A",
-        "aula": 912,
+        "aula": "912",
         "hora": "02:00:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -565,7 +565,7 @@
       {
         "profesor": "Gutierrez Hector",
         "seccion": "A",
-        "aula": 923,
+        "aula": "923",
         "hora": "12:00:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -578,7 +578,7 @@
       {
         "profesor": "Hernandez Fernanda",
         "seccion": "A",
-        "aula": 711,
+        "aula": "711",
         "hora": "02:00:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -591,7 +591,7 @@
       {
         "profesor": "Hernandez Fernanda",
         "seccion": "A",
-        "aula": 713,
+        "aula": "713",
         "hora": "03:30:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -604,7 +604,7 @@
       {
         "profesor": "Hurtado Hector",
         "seccion": "A",
-        "aula": 704,
+        "aula": "704",
         "hora": "02:00:00 p.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -617,7 +617,7 @@
       {
         "profesor": "Hurtado Hector",
         "seccion": "A",
-        "aula": 704,
+        "aula": "704",
         "hora": "04:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -630,7 +630,7 @@
       {
         "profesor": "Lugo Vicente",
         "seccion": "A",
-        "aula": 811,
+        "aula": "811",
         "hora": "04:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -643,7 +643,7 @@
       {
         "profesor": "Marcano Guillermo",
         "seccion": "A",
-        "aula": 911,
+        "aula": "911",
         "hora": "05:15:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -656,7 +656,7 @@
       {
         "profesor": "Marcano Guillermo",
         "seccion": "A",
-        "aula": 912,
+        "aula": "912",
         "hora": "04:00:00 p.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -669,7 +669,7 @@
       {
         "profesor": "Molinaro Pascuale",
         "seccion": "A",
-        "aula": 912,
+        "aula": "912",
         "hora": "02:00:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -682,7 +682,7 @@
       {
         "profesor": "Molinaro Pascuale",
         "seccion": "A",
-        "aula": 911,
+        "aula": "911",
         "hora": "04:00:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -695,7 +695,7 @@
       {
         "profesor": "Parra Daniel",
         "seccion": "A",
-        "aula": 704,
+        "aula": "704",
         "hora": "04:30:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -708,7 +708,7 @@
       {
         "profesor": "Parra Juan",
         "seccion": "A",
-        "aula": 901,
+        "aula": "901",
         "hora": "02:15:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -721,7 +721,7 @@
       {
         "profesor": "Parra Juan",
         "seccion": "A",
-        "aula": 701,
+        "aula": "701",
         "hora": "02:15:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -734,7 +734,7 @@
       {
         "profesor": "Parra Juan",
         "seccion": "A",
-        "aula": 701,
+        "aula": "701",
         "hora": "02:15:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -747,7 +747,7 @@
       {
         "profesor": "Parra Juan",
         "seccion": "A",
-        "aula": 811,
+        "aula": "811",
         "hora": "04:15:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -760,7 +760,7 @@
       {
         "profesor": "Ramirez Jhonatan",
         "seccion": "A",
-        "aula": 822,
+        "aula": "822",
         "hora": "04:00:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -773,7 +773,7 @@
       {
         "profesor": "Stuyvesant Laura",
         "seccion": "A",
-        "aula": 703,
+        "aula": "703",
         "hora": "01:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -786,7 +786,7 @@
       {
         "profesor": "Vielma Miguel",
         "seccion": "A",
-        "aula": 911,
+        "aula": "911",
         "hora": "02:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -799,7 +799,7 @@
       {
         "profesor": "Vielma Miguel",
         "seccion": "A",
-        "aula": 913,
+        "aula": "913",
         "hora": "04:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -812,7 +812,7 @@
       {
         "profesor": "Vielma Miguel",
         "seccion": "A",
-        "aula": 811,
+        "aula": "811",
         "hora": "04:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -827,7 +827,7 @@
       {
         "profesor": "Alviarez Omar",
         "seccion": "A",
-        "aula": 911,
+        "aula": "911",
         "hora": "8:00:00 a.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -838,7 +838,7 @@
       {
         "profesor": "Kuslaba Gregorio",
         "seccion": "B",
-        "aula": 714,
+        "aula": "714",
         "hora": "02:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -851,7 +851,7 @@
       {
         "profesor": "Alviarez Omar",
         "seccion": "A",
-        "aula": 902,
+        "aula": "902",
         "hora": "09:00:00 a.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -864,7 +864,7 @@
       {
         "profesor": "Ariccia Ramon",
         "seccion": "A",
-        "aula": 901,
+        "aula": "901",
         "hora": "07:00:00 a.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -875,7 +875,7 @@
       {
         "profesor": "Barrera Vidal",
         "seccion": "C",
-        "aula": 702,
+        "aula": "702",
         "hora": "07:00:00 a.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -886,7 +886,7 @@
       {
         "profesor": "Muñoz Pablo",
         "seccion": "B",
-        "aula": 902,
+        "aula": "902",
         "hora": "07:00:00 a.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -899,7 +899,7 @@
       {
         "profesor": "Ariccia Ramon",
         "seccion": "A",
-        "aula": 703,
+        "aula": "703",
         "hora": "10:00:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "27/03/2026",
@@ -910,7 +910,7 @@
       {
         "profesor": "Contreras Jesus",
         "seccion": "B",
-        "aula": 901,
+        "aula": "901",
         "hora": "10:00:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "27/03/2026",
@@ -923,7 +923,7 @@
       {
         "profesor": "Barrera Vidal",
         "seccion": "C",
-        "aula": 701,
+        "aula": "701",
         "hora": "08:00:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "27/03/2026",
@@ -934,7 +934,7 @@
       {
         "profesor": "Contreras Jesus",
         "seccion": "B",
-        "aula": 901,
+        "aula": "901",
         "hora": "08:00:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "27/03/2026",
@@ -945,7 +945,7 @@
       {
         "profesor": "De La Rosa Carmen",
         "seccion": "A",
-        "aula": 711,
+        "aula": "711",
         "hora": "08:00:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "27/03/2026",
@@ -958,7 +958,7 @@
       {
         "profesor": "Contreras Jesus",
         "seccion": "B",
-        "aula": 703,
+        "aula": "703",
         "hora": "09:00:00 a.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -969,7 +969,7 @@
       {
         "profesor": "Mendez Luisa",
         "seccion": "A",
-        "aula": 901,
+        "aula": "901",
         "hora": "09:00:00 a.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -982,7 +982,7 @@
       {
         "profesor": "De La Rosa Carmen",
         "seccion": "A",
-        "aula": 712,
+        "aula": "712",
         "hora": "10:00:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "27/03/2026",
@@ -993,7 +993,7 @@
       {
         "profesor": "Rivero Pedro",
         "seccion": "B",
-        "aula": 902,
+        "aula": "902",
         "hora": "10:00:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "27/03/2026",
@@ -1006,7 +1006,7 @@
       {
         "profesor": "De La Rosa Carmen",
         "seccion": "A",
-        "aula": 714,
+        "aula": "714",
         "hora": "08:00:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "27/03/2026",
@@ -1017,7 +1017,7 @@
       {
         "profesor": "Rivero Pedro",
         "seccion": "B",
-        "aula": 902,
+        "aula": "902",
         "hora": "08:00:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "27/03/2026",
@@ -1030,8 +1030,8 @@
       {
         "profesor": "Ferrer Carlos",
         "seccion": "B",
-        "aula": 821,
-        "hora": "08:00:00 a.m.",
+        "aula": "821",
+        "hora": "11:00:00 a.m. / 08:00:00 a.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
         "parcial_2": "13/05/2026",
@@ -1041,7 +1041,7 @@
       {
         "profesor": "Martinez Gabriel",
         "seccion": "A",
-        "aula": 821,
+        "aula": "821",
         "hora": "1:00:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "07/04/2026",
@@ -1054,7 +1054,7 @@
       {
         "profesor": "Ferrer Carlos",
         "seccion": "A",
-        "aula": 821,
+        "aula": "821",
         "hora": "10:00:00 a.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -1065,7 +1065,7 @@
       {
         "profesor": "Moya Alexander",
         "seccion": "B",
-        "aula": 704,
+        "aula": "704",
         "hora": "02:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "08/04/2026",
@@ -1078,7 +1078,7 @@
       {
         "profesor": "Marcano Guillermo",
         "seccion": "A",
-        "aula": 703,
+        "aula": "703",
         "hora": "02:30:00 p.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -1091,7 +1091,7 @@
       {
         "profesor": "Montilla Ruben",
         "seccion": "B",
-        "aula": 901,
+        "aula": "901",
         "hora": "09:00:00 a.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -1102,7 +1102,7 @@
       {
         "profesor": "Riera Jorge",
         "seccion": "A",
-        "aula": 902,
+        "aula": "902",
         "hora": "07:00:00 a.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -1115,7 +1115,7 @@
       {
         "profesor": "Murillo Rachel",
         "seccion": "A",
-        "aula": 703,
+        "aula": "703",
         "hora": "09:00:00 a.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -1128,7 +1128,7 @@
       {
         "profesor": "Rodiz Marcos",
         "seccion": "A",
-        "aula": 704,
+        "aula": "704",
         "hora": "11:00:00 a.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -1141,7 +1141,7 @@
       {
         "profesor": "Rodriguez Yelsy",
         "seccion": "A",
-        "aula": 703,
+        "aula": "703",
         "hora": "07:00:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -1154,7 +1154,7 @@
       {
         "profesor": "Sosa Ciro",
         "seccion": "A",
-        "aula": 823,
+        "aula": "823",
         "hora": "02:30:00 p.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -1167,7 +1167,7 @@
       {
         "profesor": "Vargas Martha",
         "seccion": "A",
-        "aula": 701,
+        "aula": "701",
         "hora": "2:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -1180,7 +1180,7 @@
       {
         "profesor": "Vargas Martha",
         "seccion": "A",
-        "aula": 701,
+        "aula": "701",
         "hora": "4:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -1195,7 +1195,7 @@
       {
         "profesor": "Ariccia Ramon",
         "seccion": "A",
-        "aula": 912,
+        "aula": "912",
         "hora": "09:30:00 a.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -1208,7 +1208,7 @@
       {
         "profesor": "Ariccia Ramon",
         "seccion": "A",
-        "aula": 913,
+        "aula": "913",
         "hora": "08:00:00 a.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -1221,7 +1221,7 @@
       {
         "profesor": "Betancourt Luis",
         "seccion": "A",
-        "aula": 912,
+        "aula": "912",
         "hora": "04:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -1234,7 +1234,7 @@
       {
         "profesor": "Briceño Jesus",
         "seccion": "A",
-        "aula": 912,
+        "aula": "912",
         "hora": "01:30:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -1247,7 +1247,7 @@
       {
         "profesor": "Camargo Pedro",
         "seccion": "A",
-        "aula": 823,
+        "aula": "823",
         "hora": "04:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -1260,7 +1260,7 @@
       {
         "profesor": "Cordido Nelson",
         "seccion": "A",
-        "aula": 712,
+        "aula": "712",
         "hora": "01:30:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -1273,7 +1273,7 @@
       {
         "profesor": "Cordido Nelson",
         "seccion": "A",
-        "aula": 701,
+        "aula": "701",
         "hora": "01:30:00 p.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -1286,7 +1286,7 @@
       {
         "profesor": "Cordido Nelson",
         "seccion": "A",
-        "aula": 712,
+        "aula": "712",
         "hora": "03:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -1299,7 +1299,7 @@
       {
         "profesor": "Cortes Yennifer",
         "seccion": "A",
-        "aula": 822,
+        "aula": "822",
         "hora": "08:30:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -1312,7 +1312,7 @@
       {
         "profesor": "Daoud Juan",
         "seccion": "A",
-        "aula": 922,
+        "aula": "922",
         "hora": "02:00:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -1325,7 +1325,7 @@
       {
         "profesor": "De Freitas Lisette",
         "seccion": "A",
-        "aula": 701,
+        "aula": "701",
         "hora": "09:30:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -1338,7 +1338,7 @@
       {
         "profesor": "De Freitas Lisette",
         "seccion": "A",
-        "aula": 701,
+        "aula": "701",
         "hora": "07:30:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -1351,7 +1351,7 @@
       {
         "profesor": "De La Rosa Carmen",
         "seccion": "A",
-        "aula": 711,
+        "aula": "711",
         "hora": "10:00:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "27/03/2026",
@@ -1364,7 +1364,7 @@
       {
         "profesor": "De La Rosa Carmen",
         "seccion": "A",
-        "aula": 713,
+        "aula": "713",
         "hora": "10:00:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "27/03/2026",
@@ -1377,7 +1377,7 @@
       {
         "profesor": "Farias Juan",
         "seccion": "A",
-        "aula": 714,
+        "aula": "714",
         "hora": "12:15:00 p.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -1390,7 +1390,7 @@
       {
         "profesor": "Fernadez Rafael",
         "seccion": "A",
-        "aula": 914,
+        "aula": "914",
         "hora": "11:00:00 a.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -1403,7 +1403,7 @@
       {
         "profesor": "Frezza Rolando",
         "seccion": "A",
-        "aula": 822,
+        "aula": "822",
         "hora": "09:30:00 a.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -1414,7 +1414,7 @@
       {
         "profesor": "Frezza Rolando",
         "seccion": "B",
-        "aula": 822,
+        "aula": "822",
         "hora": "11:30:00 a.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -1427,7 +1427,7 @@
       {
         "profesor": "Frezza Rolando",
         "seccion": "A",
-        "aula": 822,
+        "aula": "822",
         "hora": "10:30:00 a.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -1438,7 +1438,7 @@
       {
         "profesor": "Frezza Rolando",
         "seccion": "B",
-        "aula": 822,
+        "aula": "822",
         "hora": "12:00:00 p.m",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -1451,7 +1451,7 @@
       {
         "profesor": "Frezza Rolando",
         "seccion": "A",
-        "aula": 822,
+        "aula": "822",
         "hora": "01:30:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -1464,7 +1464,7 @@
       {
         "profesor": "Gonzalez Maria Zuleny",
         "seccion": "A",
-        "aula": 704,
+        "aula": "704",
         "hora": "1:30:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -1477,7 +1477,7 @@
       {
         "profesor": "Gutierrez Hector",
         "seccion": "A",
-        "aula": 922,
+        "aula": "922",
         "hora": "10:00:00 a.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -1490,7 +1490,7 @@
       {
         "profesor": "Hernandez Fernanda",
         "seccion": "A",
-        "aula": 714,
+        "aula": "714",
         "hora": "12:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "08/04/2026",
@@ -1503,7 +1503,7 @@
       {
         "profesor": "Hernandez Gabriela",
         "seccion": "A",
-        "aula": 833,
+        "aula": "833",
         "hora": "12:00:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -1516,7 +1516,7 @@
       {
         "profesor": "Hernandez Gabriela",
         "seccion": "B",
-        "aula": 831,
+        "aula": "831",
         "hora": "02:00:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -1527,7 +1527,7 @@
       {
         "profesor": "Hernandez Gabriela",
         "seccion": "C",
-        "aula": 831,
+        "aula": "831",
         "hora": "10:00:00 a.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -1538,7 +1538,7 @@
       {
         "profesor": "Rivero Brander",
         "seccion": "A",
-        "aula": 834,
+        "aula": "834",
         "hora": "04:00:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -1551,7 +1551,7 @@
       {
         "profesor": "Kuslaba Gregorio",
         "seccion": "A",
-        "aula": 713,
+        "aula": "713",
         "hora": "08:00:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "27/03/2026",
@@ -1564,7 +1564,7 @@
       {
         "profesor": "Marcano Guillermo",
         "seccion": "A",
-        "aula": 911,
+        "aula": "911",
         "hora": "01:30:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -1577,7 +1577,7 @@
       {
         "profesor": "Martinez Hector",
         "seccion": "A",
-        "aula": 831,
+        "aula": "831",
         "hora": "11:00:00 a.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -1590,7 +1590,7 @@
       {
         "profesor": "Martinez Hector",
         "seccion": "A",
-        "aula": 913,
+        "aula": "913",
         "hora": "03:00:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -1603,7 +1603,7 @@
       {
         "profesor": "Mileo Susana",
         "seccion": "A",
-        "aula": 931,
+        "aula": "931",
         "hora": "01:00:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -1616,7 +1616,7 @@
       {
         "profesor": "Molinaro Pascuale",
         "seccion": "A",
-        "aula": 911,
+        "aula": "911",
         "hora": "10:00:00 a.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -1629,7 +1629,7 @@
       {
         "profesor": "Moyano Frida",
         "seccion": "A",
-        "aula": 912,
+        "aula": "912",
         "hora": "11:30:00 a.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -1642,7 +1642,7 @@
       {
         "profesor": "Palomba Lorena",
         "seccion": "A",
-        "aula": 912,
+        "aula": "912",
         "hora": "10:30:00 a.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -1655,7 +1655,7 @@
       {
         "profesor": "Palomba Lorena",
         "seccion": "A",
-        "aula": 714,
+        "aula": "714",
         "hora": "01:00:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -1668,7 +1668,7 @@
       {
         "profesor": "Palomba Luigi",
         "seccion": "A",
-        "aula": 912,
+        "aula": "912",
         "hora": "10:00:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -1681,7 +1681,7 @@
       {
         "profesor": "Perez Tomas",
         "seccion": "A",
-        "aula": 912,
+        "aula": "912",
         "hora": "08:30:00 a.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -1694,7 +1694,7 @@
       {
         "profesor": "Perez Tomas",
         "seccion": "A",
-        "aula": 914,
+        "aula": "914",
         "hora": "07:00:00 a.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -1707,7 +1707,7 @@
       {
         "profesor": "Rivero Brander",
         "seccion": "A",
-        "aula": 704,
+        "aula": "704",
         "hora": "10:30:00 a.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -1720,7 +1720,7 @@
       {
         "profesor": "Rodiz Marcos",
         "seccion": "A",
-        "aula": 912,
+        "aula": "912",
         "hora": "07:00:00 a.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -1733,7 +1733,7 @@
       {
         "profesor": "Salcedo Antonio",
         "seccion": "A",
-        "aula": 912,
+        "aula": "912",
         "hora": "04:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -1746,7 +1746,7 @@
       {
         "profesor": "Salcedo Antonio",
         "seccion": "A",
-        "aula": 714,
+        "aula": "714",
         "hora": "02:30:00 p.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -1759,7 +1759,7 @@
       {
         "profesor": "Sosa Ciro",
         "seccion": "A",
-        "aula": 823,
+        "aula": "823",
         "hora": "12:30:00 p.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -1772,7 +1772,7 @@
       {
         "profesor": "Stuyvesant Laura",
         "seccion": "A",
-        "aula": 911,
+        "aula": "911",
         "hora": "08:30:00 a.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -1785,7 +1785,7 @@
       {
         "profesor": "Stuyvesant Laura",
         "seccion": "A",
-        "aula": 711,
+        "aula": "711",
         "hora": "08:30:00 a.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -1800,7 +1800,7 @@
       {
         "profesor": "Betancourt Orlando",
         "seccion": "E",
-        "aula": 711,
+        "aula": "711",
         "hora": "04:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -1813,7 +1813,7 @@
       {
         "profesor": "Camargo Pedro",
         "seccion": "E",
-        "aula": 934,
+        "aula": "934",
         "hora": "03:00:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -1826,7 +1826,7 @@
       {
         "profesor": "Camargo Pedro",
         "seccion": "A",
-        "aula": 823,
+        "aula": "823",
         "hora": "12:00:00 p.m",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -1839,7 +1839,7 @@
       {
         "profesor": "Cepeda Angel",
         "seccion": "A",
-        "aula": 712,
+        "aula": "712",
         "hora": "03:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -1850,7 +1850,7 @@
       {
         "profesor": "Morales Hildren",
         "seccion": "B",
-        "aula": 713,
+        "aula": "713",
         "hora": "03:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -1863,7 +1863,7 @@
       {
         "profesor": "Curvelo Tommy",
         "seccion": "A",
-        "aula": 712,
+        "aula": "712",
         "hora": "07:00:00 a.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -1876,7 +1876,7 @@
       {
         "profesor": "D'amico Antonina",
         "seccion": "T",
-        "aula": 932,
+        "aula": "932",
         "hora": "02:30:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -1889,7 +1889,7 @@
       {
         "profesor": "D'amico Antonina",
         "seccion": "T",
-        "aula": 813,
+        "aula": "813",
         "hora": "12:00:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -1902,7 +1902,7 @@
       {
         "profesor": "Fernadez Rafael",
         "seccion": "E",
-        "aula": 913,
+        "aula": "913",
         "hora": "01:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -1915,7 +1915,7 @@
       {
         "profesor": "Fernadez Rafael",
         "seccion": "A",
-        "aula": 702,
+        "aula": "702",
         "hora": "09:00:00 a.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -1928,7 +1928,7 @@
       {
         "profesor": "Ferrer Carlos",
         "seccion": "A",
-        "aula": 922,
+        "aula": "922",
         "hora": "12:30:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -1941,7 +1941,7 @@
       {
         "profesor": "Ferrer Carlos",
         "seccion": "A",
-        "aula": 703,
+        "aula": "703",
         "hora": "12:30:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -1954,7 +1954,7 @@
       {
         "profesor": "Guillen Yraida",
         "seccion": "A",
-        "aula": 913,
+        "aula": "913",
         "hora": "12:00:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -1967,7 +1967,7 @@
       {
         "profesor": "Guillen Yraida",
         "seccion": "A",
-        "aula": 911,
+        "aula": "911",
         "hora": "02:00:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -1978,7 +1978,7 @@
       {
         "profesor": "Guillen Yraida",
         "seccion": "B",
-        "aula": 913,
+        "aula": "913",
         "hora": "10:00:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -1991,7 +1991,7 @@
       {
         "profesor": "Guillen Yraida",
         "seccion": "E",
-        "aula": 813,
+        "aula": "813",
         "hora": "03:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -2004,7 +2004,7 @@
       {
         "profesor": "Hau Roger",
         "seccion": "E",
-        "aula": 713,
+        "aula": "713",
         "hora": "12:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -2017,7 +2017,7 @@
       {
         "profesor": "Jimenez Zoraida",
         "seccion": "A",
-        "aula": 913,
+        "aula": "913",
         "hora": "11:00:00 a.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -2030,7 +2030,7 @@
       {
         "profesor": "Mendez Luisa",
         "seccion": "A",
-        "aula": 704,
+        "aula": "704",
         "hora": "09:00:00 a.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -2043,7 +2043,7 @@
       {
         "profesor": "Montilla Ruben",
         "seccion": "A",
-        "aula": 902,
+        "aula": "902",
         "hora": "11:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -2056,7 +2056,7 @@
       {
         "profesor": "Morales Hildren",
         "seccion": "E",
-        "aula": 913,
+        "aula": "913",
         "hora": "01:00:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -2069,7 +2069,7 @@
       {
         "profesor": "Morales Hildren",
         "seccion": "A",
-        "aula": 934,
+        "aula": "934",
         "hora": "12:00:00 p.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -2082,7 +2082,7 @@
       {
         "profesor": "Morales Hildren",
         "seccion": "A",
-        "aula": 821,
+        "aula": "821",
         "hora": "10:00:00 a.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -2095,7 +2095,7 @@
       {
         "profesor": "Morales Hildren",
         "seccion": "E",
-        "aula": 932,
+        "aula": "932",
         "hora": "10:00:00 a.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -2108,7 +2108,7 @@
       {
         "profesor": "Moya Alexander",
         "seccion": "A",
-        "aula": 704,
+        "aula": "704",
         "hora": "12:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -2119,20 +2119,9 @@
     ],
     "Ingeniería de Software II": [
       {
-        "profesor": "Moya Alexander",
-        "seccion": "E",
-        "aula": 704,
-        "hora": "12:00:00 p.m.",
-        "dia": "Jueves",
-        "parcial_1": "09/04/2026",
-        "parcial_2": "14/05/2026",
-        "parcial_3": "11/06/2026",
-        "parcial_4": "26/06/2026"
-      },
-      {
         "profesor": "Ramirez Jose",
         "seccion": "E",
-        "aula": 712,
+        "aula": "712",
         "hora": "12:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -2145,7 +2134,7 @@
       {
         "profesor": "Muñoz Pablo",
         "seccion": "E",
-        "aula": 813,
+        "aula": "813",
         "hora": "10:00:00 a.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -2158,7 +2147,7 @@
       {
         "profesor": "Parra Juan",
         "seccion": "A",
-        "aula": 701,
+        "aula": "701",
         "hora": "02:15:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -2169,7 +2158,7 @@
       {
         "profesor": "Parra Juan",
         "seccion": "B",
-        "aula": 701,
+        "aula": "701",
         "hora": "12:30:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -2182,7 +2171,7 @@
       {
         "profesor": "Ramirez Jose",
         "seccion": "A",
-        "aula": 821,
+        "aula": "821",
         "hora": "02:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -2195,7 +2184,7 @@
       {
         "profesor": "Ramirez Jose",
         "seccion": "A",
-        "aula": 921,
+        "aula": "921",
         "hora": "04:00:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -2208,7 +2197,7 @@
       {
         "profesor": "Riera Jorge",
         "seccion": "A",
-        "aula": 713,
+        "aula": "713",
         "hora": "01:30:00 p.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -2221,7 +2210,7 @@
       {
         "profesor": "Rodriguez Carmen",
         "seccion": "A",
-        "aula": 701,
+        "aula": "701",
         "hora": "03:00:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -2234,7 +2223,7 @@
       {
         "profesor": "Rodriguez Carmen",
         "seccion": "A",
-        "aula": 702,
+        "aula": "702",
         "hora": "11:00:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -2247,7 +2236,7 @@
       {
         "profesor": "Toro Andy",
         "seccion": "E",
-        "aula": 911,
+        "aula": "911",
         "hora": "12:00:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -2260,7 +2249,7 @@
       {
         "profesor": "Valladares Rigel",
         "seccion": "E",
-        "aula": 911,
+        "aula": "911",
         "hora": "12:00:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -2275,7 +2264,7 @@
       {
         "profesor": "Betancourt Orlando",
         "seccion": "T",
-        "aula": 711,
+        "aula": "711",
         "hora": "04:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -2288,7 +2277,7 @@
       {
         "profesor": "Camargo Pedro",
         "seccion": "A",
-        "aula": 823,
+        "aula": "823",
         "hora": "12:00:00 p.m",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -2301,7 +2290,7 @@
       {
         "profesor": "Cepeda Angel",
         "seccion": "A",
-        "aula": 902,
+        "aula": "902",
         "hora": "11:00:00 a.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -2314,7 +2303,7 @@
       {
         "profesor": "D'amico Antonina",
         "seccion": "A",
-        "aula": 932,
+        "aula": "932",
         "hora": "02:30:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -2327,7 +2316,7 @@
       {
         "profesor": "D'amico Antonina",
         "seccion": "A",
-        "aula": 813,
+        "aula": "813",
         "hora": "12:00:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -2340,7 +2329,7 @@
       {
         "profesor": "De Freitas Lisette",
         "seccion": "A",
-        "aula": 701,
+        "aula": "701",
         "hora": "07:30:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -2353,7 +2342,7 @@
       {
         "profesor": "Fernadez Rafael",
         "seccion": "T",
-        "aula": 913,
+        "aula": "913",
         "hora": "01:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -2366,7 +2355,7 @@
       {
         "profesor": "Hau Roger",
         "seccion": "A",
-        "aula": 921,
+        "aula": "921",
         "hora": "02:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -2379,7 +2368,7 @@
       {
         "profesor": "Hau Roger",
         "seccion": "A",
-        "aula": 922,
+        "aula": "922",
         "hora": "03:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -2392,7 +2381,7 @@
       {
         "profesor": "Hau Roger",
         "seccion": "A",
-        "aula": 911,
+        "aula": "911",
         "hora": "04:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -2405,7 +2394,7 @@
       {
         "profesor": "Morales Hildren",
         "seccion": "A",
-        "aula": 934,
+        "aula": "934",
         "hora": "12:00:00 p.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -2418,7 +2407,7 @@
       {
         "profesor": "Muñoz Pablo",
         "seccion": "A",
-        "aula": 713,
+        "aula": "713",
         "hora": "01:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -2431,7 +2420,7 @@
       {
         "profesor": "Perez Alfredo",
         "seccion": "A",
-        "aula": 704,
+        "aula": "704",
         "hora": "02:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "08/04/2026",
@@ -2444,7 +2433,7 @@
       {
         "profesor": "Perez Alfredo",
         "seccion": "A",
-        "aula": 901,
+        "aula": "901",
         "hora": "12:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "06/04/2026",
@@ -2457,7 +2446,7 @@
       {
         "profesor": "Perez Alfredo",
         "seccion": "A",
-        "aula": 702,
+        "aula": "702",
         "hora": "04:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -2470,7 +2459,7 @@
       {
         "profesor": "Ramirez Jose",
         "seccion": "A",
-        "aula": 701,
+        "aula": "701",
         "hora": "11:00:00 a.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -2483,7 +2472,7 @@
       {
         "profesor": "Riera Jorge",
         "seccion": "A",
-        "aula": 713,
+        "aula": "713",
         "hora": "01:30:00 p.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -2496,7 +2485,7 @@
       {
         "profesor": "Rivero Pedro",
         "seccion": "A",
-        "aula": 702,
+        "aula": "702",
         "hora": "09:00:00 a.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -2509,7 +2498,7 @@
       {
         "profesor": "Rivero Pedro",
         "seccion": "A",
-        "aula": 712,
+        "aula": "712",
         "hora": "11:00:00 a.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -2522,7 +2511,7 @@
       {
         "profesor": "Rivero Pedro",
         "seccion": "A",
-        "aula": 711,
+        "aula": "711",
         "hora": "11:00:00 a.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -2535,7 +2524,7 @@
       {
         "profesor": "Rivero Pedro",
         "seccion": "A",
-        "aula": 902,
+        "aula": "902",
         "hora": "12:00:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -2548,7 +2537,7 @@
       {
         "profesor": "Toro Andy",
         "seccion": "A",
-        "aula": 704,
+        "aula": "704",
         "hora": "04:00:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -2561,7 +2550,7 @@
       {
         "profesor": "Toro Andy",
         "seccion": "A",
-        "aula": 901,
+        "aula": "901",
         "hora": "02:00:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -2574,7 +2563,7 @@
       {
         "profesor": "Torres Carlos",
         "seccion": "A",
-        "aula": 712,
+        "aula": "712",
         "hora": "02:00:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -2587,7 +2576,7 @@
       {
         "profesor": "Torres Carlos",
         "seccion": "A",
-        "aula": 931,
+        "aula": "931",
         "hora": "03:30:00 p.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -2600,7 +2589,7 @@
       {
         "profesor": "Torres Carlos",
         "seccion": "A",
-        "aula": 902,
+        "aula": "902",
         "hora": "04:00:00 p.m.",
         "dia": "Viernes",
         "parcial_1": "10/04/2026",
@@ -2613,7 +2602,7 @@
       {
         "profesor": "Torres Carlos",
         "seccion": "A",
-        "aula": 922,
+        "aula": "922",
         "hora": "05:00:00 p.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -2626,7 +2615,7 @@
       {
         "profesor": "Vargas Martha",
         "seccion": "A",
-        "aula": 701,
+        "aula": "701",
         "hora": "2:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -2639,7 +2628,7 @@
       {
         "profesor": "Vazquez Felipe",
         "seccion": "A",
-        "aula": 914,
+        "aula": "914",
         "hora": "12:00:00 p.m.",
         "dia": "Miercoles",
         "parcial_1": "08/04/2026",
@@ -2652,7 +2641,7 @@
       {
         "profesor": "Ysea Alfonso",
         "seccion": "A",
-        "aula": 922,
+        "aula": "922",
         "hora": "12:00:00 p.m.",
         "dia": "Lunes",
         "parcial_1": "06/04/2026",
@@ -2665,7 +2654,7 @@
       {
         "profesor": "Ysea Alfonso",
         "seccion": "A",
-        "aula": 811,
+        "aula": "811",
         "hora": "10:00:00 a.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -2678,7 +2667,7 @@
       {
         "profesor": "Ysea Alfonso",
         "seccion": "A",
-        "aula": 711,
+        "aula": "711",
         "hora": "07:00:00 a.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",
@@ -2691,7 +2680,7 @@
       {
         "profesor": "Ysea Alfonso",
         "seccion": "A",
-        "aula": 721,
+        "aula": "721",
         "hora": "05:00:00 p.m.",
         "dia": "Martes",
         "parcial_1": "07/04/2026",
@@ -2704,7 +2693,7 @@
       {
         "profesor": "Ysea Alfonso",
         "seccion": "A",
-        "aula": 702,
+        "aula": "702",
         "hora": "03:00:00 p.m.",
         "dia": "Jueves",
         "parcial_1": "09/04/2026",

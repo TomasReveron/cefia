@@ -1,0 +1,1089 @@
+.reportes-page {
+  animation: slideUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+  padding-bottom: 5rem;
+}
+
+.reportes-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* 1. Grid de Métricas para Administradores (Premium Dashboard) */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.metric-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme='light'] .metric-card:hover {
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.metric-num {
+  font-size: 2.4rem;
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.metric-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-secondary);
+}
+
+/* Bordes de estado izquierdo e indicadores */
+.metric-card.border-red { border-top: 4px solid #ef4444; }
+.metric-card.border-yellow { border-top: 4px solid #f59e0b; }
+.metric-card.border-green { border-top: 4px solid #10b981; }
+.metric-card.border-orange { border-top: 4px solid #f97316; }
+
+.status-red-text { color: #f87171; text-shadow: 0 0 10px rgba(239, 68, 68, 0.2); }
+.status-yellow-text { color: #fbbf24; text-shadow: 0 0 10px rgba(245, 158, 11, 0.2); }
+.status-green-text { color: #34d399; text-shadow: 0 0 10px rgba(16, 185, 129, 0.2); }
+.urgency-high-text { color: #fb923c; text-shadow: 0 0 10px rgba(249, 115, 22, 0.2); }
+
+[data-theme='light'] .status-red-text { color: #ef4444; }
+[data-theme='light'] .status-yellow-text { color: #d97706; }
+[data-theme='light'] .status-green-text { color: #059669; }
+[data-theme='light'] .urgency-high-text { color: #ea580c; }
+
+/* 2. Barra de Filtros (Glassmorphism) */
+.filters-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.25rem 1.75rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+}
+
+.filters-bar .search-box {
+  flex: 1;
+  min-width: 280px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.filters-bar .search-box input {
+  width: 100%;
+  padding: 0.7rem 1rem 0.7rem 2.5rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: rgba(0, 0, 0, 0.15);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  outline: none;
+  transition: var(--transition);
+}
+
+[data-theme='light'] .filters-bar .search-box input {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.filters-bar .search-box input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.15);
+}
+
+.filters-bar .search-icon {
+  position: absolute;
+  left: 0.85rem;
+  width: 18px;
+  height: 18px;
+  color: var(--text-secondary);
+}
+
+.filter-selectors {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.filter-group label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filter-group select {
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 0.88rem;
+  cursor: pointer;
+  outline: none;
+  min-width: 140px;
+  transition: var(--transition);
+}
+
+[data-theme='light'] .filter-group select {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.filter-group select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.15);
+}
+
+/* 3. Listado de Reportes en Malla */
+.reports-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Tarjetas de Reportes (Comunes) */
+.report-admin-card,
+.report-student-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(30, 41, 59, 0.4);
+}
+
+[data-theme='light'] .report-admin-card,
+[data-theme='light'] .report-student-card {
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.report-admin-card:hover,
+.report-student-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Bordes laterales por urgencia y efectos de sombra */
+.report-admin-card.urgency-alta,
+.report-student-card.urgency-alta {
+  border-left: 5px solid #ef4444;
+  box-shadow: inset 5px 0 0 -5px #ef4444;
+}
+
+.report-admin-card.urgency-media,
+.report-student-card.urgency-media {
+  border-left: 5px solid #f59e0b;
+}
+
+.report-admin-card.urgency-baja,
+.report-student-card.urgency-baja {
+  border-left: 5px solid #10b981;
+}
+
+/* Cabecera de Tarjeta */
+.report-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.header-meta {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.category-tag {
+  font-size: 0.72rem;
+  font-weight: 800;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--text-secondary);
+  padding: 0.2rem 0.6rem;
+  border-radius: 8px;
+  text-transform: uppercase;
+}
+
+[data-theme='light'] .category-tag {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Urgency badges */
+.urgency-badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+.urgency-badge.urgency-alta {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+.urgency-badge.urgency-media {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+}
+.urgency-badge.urgency-baja {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+}
+
+[data-theme='light'] .urgency-badge.urgency-alta { background: rgba(239, 68, 68, 0.1); color: #dc2626; }
+[data-theme='light'] .urgency-badge.urgency-media { background: rgba(245, 158, 11, 0.1); color: #d97706; }
+[data-theme='light'] .urgency-badge.urgency-baja { background: rgba(16, 185, 129, 0.1); color: #059669; }
+
+/* Status Selectors / Badges */
+.status-select {
+  padding: 0.4rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  outline: none;
+  transition: var(--transition);
+}
+
+[data-theme='light'] .status-select {
+  border-color: rgba(0, 0, 0, 0.05);
+}
+
+.status-badge-static {
+  padding: 0.3rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Colores de estados */
+.status-red { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+.status-yellow { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+.status-green { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+.status-gray { background: rgba(156, 163, 175, 0.15); color: #9ca3af; }
+
+[data-theme='light'] .status-red { background: rgba(239, 68, 68, 0.08); color: #c2410c; }
+[data-theme='light'] .status-yellow { background: rgba(245, 158, 11, 0.08); color: #b45309; }
+[data-theme='light'] .status-green { background: rgba(16, 185, 129, 0.08); color: #047857; }
+[data-theme='light'] .status-gray { background: rgba(156, 163, 175, 0.08); color: #4b5563; }
+
+/* Asunto y Detalles */
+.report-subject {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0.5rem 0 0.75rem 0;
+  line-height: 1.35;
+}
+
+.report-details {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  flex: 1;
+}
+
+.report-user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border-color);
+  padding-top: 1rem;
+}
+
+.report-user-info .user-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--text-secondary);
+  opacity: 0.75;
+}
+
+.anonymous-text {
+  font-style: italic;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.identified-text {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.report-date-sep {
+  opacity: 0.4;
+}
+
+.open-ticket-btn {
+  margin-top: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.88rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  gap: 0.25rem;
+}
+
+/* 4. SECCIÓN INTERACTIVA DE CHAT / TICKET (Premium Desk Interface) */
+.chat-ticket-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  border-radius: 20px 20px 0 0;
+  border: 1px solid var(--border-color);
+  border-bottom: none;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  background: rgba(30, 41, 59, 0.6);
+}
+
+[data-theme='light'] .chat-ticket-header {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateX(-2px);
+}
+
+.back-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.ticket-meta-title {
+  flex: 1;
+  min-width: 250px;
+}
+
+.ticket-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.anonymous-pill {
+  font-size: 0.65rem;
+  font-weight: 800;
+  background: rgba(156, 163, 175, 0.15);
+  color: #d1d5db;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+[data-theme='light'] .anonymous-pill {
+  color: #4b5563;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.ticket-title {
+  font-size: 1.35rem;
+  font-weight: 850;
+  color: var(--text-primary);
+  margin: 0 0 0.25rem 0;
+  line-height: 1.25;
+}
+
+.ticket-subtitle {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.ticket-workflow-control {
+  display: flex;
+  align-items: center;
+}
+
+.workflow-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-right: 0.5rem;
+}
+
+/* Caja del Chat Principal */
+.ticket-chat-box {
+  display: flex;
+  flex-direction: column;
+  height: 60vh;
+  min-height: 520px;
+  border-radius: 0 0 20px 20px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  background: rgba(15, 23, 42, 0.3);
+}
+
+[data-theme='light'] .ticket-chat-box {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.chat-messages-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Scrollbar del chat */
+.chat-messages-container::-webkit-scrollbar {
+  width: 6px;
+}
+.chat-messages-container::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 10px;
+}
+
+/* Burbuja inicial del reporte (Starter Card) */
+.chat-starter-bubble {
+  border-left: 4px solid var(--accent);
+  background: rgba(255, 140, 0, 0.05);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--accent);
+}
+
+[data-theme='light'] .chat-starter-bubble {
+  background: rgba(255, 140, 0, 0.02);
+}
+
+.starter-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+}
+
+.starter-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.starter-body p {
+  font-size: 0.92rem;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+/* Burbujas del Chat regular */
+.chat-message-row {
+  display: flex;
+  width: 100%;
+}
+
+.chat-message-row.msg-own {
+  justify-content: flex-end;
+}
+
+.chat-message-row.msg-other {
+  justify-content: flex-start;
+}
+
+.message-bubble {
+  max-width: 70%;
+  padding: 0.8rem 1.2rem;
+  border-radius: 18px;
+  position: relative;
+  animation: scaleInBubble 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes scaleInBubble {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.msg-own .message-bubble {
+  background: var(--accent);
+  color: white;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 4px 12px rgba(255, 140, 0, 0.25);
+}
+
+.msg-other .message-bubble {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+  border-bottom-left-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+[data-theme='light'] .msg-other .message-bubble {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.msg-sender-name {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.msg-own .msg-sender-name {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.msg-other .msg-sender-name {
+  color: var(--accent);
+}
+
+.msg-time {
+  font-size: 0.65rem;
+  opacity: 0.6;
+}
+
+.msg-text {
+  font-size: 0.92rem;
+  margin: 0;
+  line-height: 1.45;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+/* Barra inferior del chat para escribir */
+.chat-input-bar {
+  padding: 1.25rem 2rem;
+  border-top: 1px solid var(--border-color);
+  background: rgba(30, 41, 59, 0.5);
+}
+
+[data-theme='light'] .chat-input-bar {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.chat-form {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.chat-form input {
+  flex: 1;
+  padding: 0.85rem 1.2rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--text-primary);
+  font-size: 0.92rem;
+  outline: none;
+  transition: var(--transition);
+}
+
+[data-theme='light'] .chat-form input {
+  background: #ffffff;
+}
+
+.chat-form input:focus {
+  border-color: var(--accent);
+}
+
+.send-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: var(--transition);
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(255, 140, 0, 0.3);
+}
+
+.send-btn:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: scale(1.05);
+}
+
+.send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.send-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Advertencia de Chat bloqueado en reportes anónimos */
+.chat-anonymous-blocked {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.75rem;
+  background: rgba(156, 163, 175, 0.08);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.lock-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--text-secondary);
+}
+
+/* 5. Vista del Estudiante: Formulario de Reporte */
+.report-form-card {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3rem;
+  border-radius: 24px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+.form-card-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 2.2rem;
+  text-align: center;
+  background: linear-gradient(135deg, var(--text-primary), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: var(--text-primary);
+}
+
+.report-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.form-group input[type="text"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.85rem 1.1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: rgba(0, 0, 0, 0.15);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: var(--transition);
+}
+
+[data-theme='light'] .form-group input[type="text"],
+[data-theme='light'] .form-group select,
+[data-theme='light'] .form-group textarea {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.form-group input[type="text"]:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.15);
+  background: rgba(0, 0, 0, 0.22);
+}
+
+[data-theme='light'] .form-group input[type="text"]:focus,
+[data-theme='light'] .form-group select:focus,
+[data-theme='light'] .form-group textarea:focus {
+  background: #ffffff;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+/* Toggle Switch de Anonimato Estilo iOS */
+.anonymous-toggle-wrapper {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  border-radius: 16px;
+  margin: 0.5rem 0;
+}
+
+[data-theme='light'] .anonymous-toggle-wrapper {
+  background: rgba(0, 0, 0, 0.01);
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+}
+
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkmark {
+  position: relative;
+  width: 46px;
+  height: 24px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+[data-theme='light'] .checkmark {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: var(--text-secondary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.checkbox-container input:checked ~ .checkmark {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+  transform: translateX(22px);
+  background-color: white;
+}
+
+.checkbox-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.anonymous-disclaimer {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 0.65rem;
+  margin-left: 0;
+  line-height: 1.45;
+}
+
+.submit-report-btn {
+  padding: 0.9rem 2.2rem;
+  background-color: var(--accent);
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 15px rgba(255, 140, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.submit-report-btn:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(255, 140, 0, 0.35);
+}
+
+.submit-report-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* 6. Historial de reportes del estudiante */
+.report-student-card {
+  border-left: 5px solid var(--border-color);
+}
+
+.report-meta-date {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+/* 7. Segmented Tab Control */
+.tab-selectors {
+  display: flex;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.3rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  max-width: 440px;
+  margin: 0 auto;
+  gap: 0.25rem;
+}
+
+[data-theme='light'] .tab-selectors {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.tab-selectors .career-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  transition: all 0.25s ease;
+  cursor: pointer;
+  text-align: center;
+}
+
+.tab-selectors .career-tab:hover {
+  color: var(--text-primary);
+}
+
+.tab-selectors .career-tab.active {
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 140, 0, 0.2);
+}
+
+/* Loader y spinner */
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.metrics-skeleton {
+  height: 100px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-secondary);
+  margin-bottom: 2.5rem;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .form-row-2 {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .report-form-card {
+    padding: 2rem 1.5rem;
+  }
+  .filters-bar {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .filter-selectors {
+    flex-direction: column;
+  }
+  .filter-group select {
+    width: 100%;
+  }
+  .chat-ticket-header {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  .ticket-chat-box {
+    height: 50vh;
+    min-height: 400px;
+  }
+  .chat-messages-container {
+    padding: 1rem;
+  }
+  .chat-input-bar {
+    padding: 1rem;
+  }
+  .message-bubble {
+    max-width: 85%;
+  }
+}
+
+.login-warning-text {
+  color: #fb923c;
+  font-weight: 700;
+  display: inline-block;
+  line-height: 1.45;
+}
+
+[data-theme='light'] .login-warning-text {
+  color: #ea580c;
+}
+
+.login-link-inline {
+  color: var(--accent);
+  text-decoration: underline;
+  font-weight: 800;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.login-link-inline:hover {
+  color: var(--accent-hover);
+}
+
+/* Vista de Detalles para Tickets Anónimos (Premium Card) */
+.ticket-details-box {
+  padding: 2.5rem;
+  border-radius: 0 0 20px 20px;
+  border: 1px solid var(--border-color);
+  background: rgba(30, 41, 59, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-height: 380px;
+}
+
+[data-theme='light'] .ticket-details-box {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.details-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+}
+
+.details-header h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.details-icon {
+  width: 22px;
+  height: 22px;
+  color: var(--accent);
+}
+
+.details-body {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  border-radius: 12px;
+  line-height: 1.6;
+}
+
+[data-theme='light'] .details-body {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.details-text {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  margin: 0;
+  white-space: pre-wrap;
+}

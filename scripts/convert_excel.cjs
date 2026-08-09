@@ -8,7 +8,7 @@ const OUT_PATH = path.join(__dirname, '../public/exam_data.json');
 function formatDate(excelValue) {
   // If it's empty, return "Por Definir" or blank
   if (excelValue === undefined || excelValue === null || excelValue === "") return '-';
-  
+
   // If Excel parsed it as a number (serial date), convert it:
   if (typeof excelValue === 'number') {
     // 25569 is the offset between 1900-01-01 and 1970-01-01
@@ -20,7 +20,7 @@ function formatDate(excelValue) {
     const yyyy = utcDate.getUTCFullYear();
     return `${dd}/${mm}/${yyyy}`;
   }
-  
+
   // Return as string if it wasn't a standard serial number
   return String(excelValue).trim();
 }
@@ -28,7 +28,7 @@ function formatDate(excelValue) {
 try {
   console.log('⏳ Leyendo archivo Excel...');
   const workbook = xlsx.readFile(FILE_PATH);
-  
+
   const allExamsMap = new Map();
 
   workbook.SheetNames.forEach(sheetName => {
@@ -36,7 +36,7 @@ try {
     // Convert to JSON using the first row as keys 
     // defval: "" ensures missing cells have a key but an empty string
     const rawData = xlsx.utils.sheet_to_json(sheet, { defval: "" });
-    
+
     // Fallback dictionary for known columns to avoid case sensitivity issues
     rawData.forEach(row => {
       // Find exact keys in case they have trailing spaces
@@ -48,11 +48,11 @@ try {
 
       const materia = getVal('MATERIA');
       const profesor = getVal('PROFESOR');
-      
+
       // Skip empty rows and the header repeating rows
       if (materia && profesor && materia.trim().toUpperCase() !== 'MATERIA') {
         const key = `${getVal('ESCUELA')}-${materia.trim()}-${profesor.trim()}-${getVal('SECCION')}`;
-        
+
         allExamsMap.set(key, {
           escuela: getVal('ESCUELA'),
           materia: materia.trim(),
@@ -89,7 +89,7 @@ try {
       if (!structuredData[escuela][materia]) {
         structuredData[escuela][materia] = [];
       }
-      
+
       structuredData[escuela][materia].push({
         profesor: exam.profesor,
         seccion: exam.seccion,

@@ -1,0 +1,8 @@
+- `[x]` Agregar estados para el ticket activo, mensajes del chat e input de texto en `Reportes.jsx`
+- `[x]` Configurar listener `onSnapshot` para la subcolección `mensajes` de Firestore del ticket activo
+- `[x]` Implementar la función `handleSendMessage` para registrar mensajes en Firestore
+- `[x]` Rediseñar la UI de `Reportes.jsx` para mostrar el panel lateral de Chat al seleccionar un ticket (tanto en admin como en estudiante)
+- `[x]` Agregar estilos CSS en `Reportes.css` para el panel de Chat (burbujas, cabecera, scroll y caja de entrada de texto)
+- `[x]` Validar obligatoriedad de inicio de sesión si el reporte no es anónimo
+- `[x]` Reemplazar el chat de los tickets anónimos por una vista de detalles estática con notas de resolución internas
+- `[x]` Verificar el funcionamiento compilando y probando localmente
