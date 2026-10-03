@@ -102,3 +102,59 @@
     padding: 2rem 1rem;
   }
 }
+
+/* Modal de Redes Sociales */
+.socials-modal {
+  max-width: 500px;
+  text-align: center;
+  padding: 30px;
+}
+
+.modal-subtitle {
+  color: var(--text-secondary);
+  margin-bottom: 25px;
+  font-size: 0.95rem;
+}
+
+.social-links-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.social-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: white;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.social-card:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.social-card.telegram {
+  background: linear-gradient(135deg, #0088cc, #005580);
+}
+
+.social-card.instagram {
+  background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.social-card.whatsapp {
+  background: linear-gradient(135deg, #25D366, #128C7E);
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
