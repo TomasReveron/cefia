@@ -33,9 +33,37 @@ try {
 
   workbook.SheetNames.forEach(sheetName => {
     const sheet = workbook.Sheets[sheetName];
-    // Convert to JSON using the first row as keys 
+
+    // Fix merged cells by duplicating the top-left value to all cells in the merge
+    if (sheet['!merges']) {
+      sheet['!merges'].forEach(merge => {
+        const startCellRef = xlsx.utils.encode_cell(merge.s);
+        const startCell = sheet[startCellRef];
+        if (startCell) {
+          for (let R = merge.s.r; R <= merge.e.r; ++R) {
+            for (let C = merge.s.c; C <= merge.e.c; ++C) {
+              if (R === merge.s.r && C === merge.s.c) continue;
+              const cellRef = xlsx.utils.encode_cell({c: C, r: R});
+              sheet[cellRef] = Object.assign({}, startCell);
+            }
+          }
+        }
+      });
+    }
+
+    // Find the header row dynamically
+    const rows = xlsx.utils.sheet_to_json(sheet, { header: 1 });
+    let headerIndex = 0;
+    for (let i = 0; i < Math.min(10, rows.length); i++) {
+      if (rows[i] && rows[i].some(c => typeof c === 'string' && c.trim().toUpperCase() === 'MATERIA')) {
+        headerIndex = i;
+        break;
+      }
+    }
+
+    // Convert to JSON using the detected header row as keys 
     // defval: "" ensures missing cells have a key but an empty string
-    const rawData = xlsx.utils.sheet_to_json(sheet, { defval: "" });
+    const rawData = xlsx.utils.sheet_to_json(sheet, { range: headerIndex, defval: "" });
 
     // Fallback dictionary for known columns to avoid case sensitivity issues
     rawData.forEach(row => {

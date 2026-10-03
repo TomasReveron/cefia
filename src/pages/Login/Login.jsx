@@ -15,7 +15,7 @@ const Login = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        navigate('/anuncios');
+        navigate('/examenes');
       }
     });
     return () => unsubscribe();
@@ -55,7 +55,7 @@ const Login = () => {
         console.warn("FCM token register skipped:", fcmErr);
       }
 
-      navigate('/anuncios');
+      navigate('/examenes');
     } catch (err) {
       console.error("Error al iniciar sesión:", err);
       // Clean up firebase auth error messages for the user

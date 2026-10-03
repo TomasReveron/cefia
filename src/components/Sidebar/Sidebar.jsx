@@ -80,6 +80,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         </svg>
       )
     },
+    /*
     {
       name: 'Anuncios',
       path: '/anuncios',
@@ -99,6 +100,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         </svg>
       )
     },
+    */
     // {
     //   name: 'Noticias',
     //   path: '/noticias',

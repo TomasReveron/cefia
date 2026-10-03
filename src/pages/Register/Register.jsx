@@ -67,7 +67,7 @@ const Register = () => {
       
       setSuccess(true);
       setTimeout(() => {
-        navigate('/anuncios');
+        navigate('/examenes');
       }, 2000);
 
     } catch (err) {

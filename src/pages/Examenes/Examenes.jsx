@@ -116,7 +116,35 @@ const Examenes = () => {
 
         workbook.SheetNames.forEach(sheetName => {
           const sheet = workbook.Sheets[sheetName];
-          const rawData = XLSX.utils.sheet_to_json(sheet, { defval: "" });
+
+          // Fix merged cells by duplicating the top-left value to all cells in the merge
+          if (sheet['!merges']) {
+            sheet['!merges'].forEach(merge => {
+              const startCellRef = XLSX.utils.encode_cell(merge.s);
+              const startCell = sheet[startCellRef];
+              if (startCell) {
+                for (let R = merge.s.r; R <= merge.e.r; ++R) {
+                  for (let C = merge.s.c; C <= merge.e.c; ++C) {
+                    if (R === merge.s.r && C === merge.s.c) continue;
+                    const cellRef = XLSX.utils.encode_cell({c: C, r: R});
+                    sheet[cellRef] = Object.assign({}, startCell);
+                  }
+                }
+              }
+            });
+          }
+
+          // Find the header row dynamically
+          const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+          let headerIndex = 0;
+          for (let i = 0; i < Math.min(10, rows.length); i++) {
+            if (rows[i] && rows[i].some(c => typeof c === 'string' && c.trim().toUpperCase() === 'MATERIA')) {
+              headerIndex = i;
+              break;
+            }
+          }
+
+          const rawData = XLSX.utils.sheet_to_json(sheet, { range: headerIndex, defval: "" });
 
           rawData.forEach(row => {
             const keys = Object.keys(row);
