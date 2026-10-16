@@ -260,7 +260,9 @@
   box-shadow: 0 0 0 3px rgba(76, 95, 217, 0.2);
 }
 
-.search-icon {
+.search-container .search-icon {
+  position: static;
+  transform: none;
   width: 20px;
   height: 20px;
   color: var(--text-secondary);
