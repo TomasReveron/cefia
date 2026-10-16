@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { collection, addDoc, onSnapshot, doc, updateDoc, query, where, orderBy } from 'firebase/firestore';
+import { collection, addDoc, onSnapshot, doc, getDoc, updateDoc, query, where, orderBy } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { db, auth } from '../../firebase';
 import './Reportes.css';
@@ -11,6 +11,14 @@ const STATUS_OPTIONS = [
   { value: "En Revisión", label: "En Revisión", color: "status-yellow" },
   { value: "Resuelto", label: "Resuelto", color: "status-green" },
   { value: "Archivado", label: "Archivado", color: "status-gray" }
+];
+
+const QUICK_RESOLUTION_TAGS = [
+  "Notificado a Decanato",
+  "Mantenimiento Informado",
+  "Acuerdo con Profesor",
+  "Inspección Realizada",
+  "Solución Definitiva Aplicada"
 ];
 
 const Reportes = () => {
@@ -48,6 +56,9 @@ const Reportes = () => {
   const [newMessageText, setNewMessageText] = useState("");
   const [sendingMessage, setSendingMessage] = useState(false);
   const [editingNotes, setEditingNotes] = useState(false);
+  const [tempNotesText, setTempNotesText] = useState("");
+  const [savingNotes, setSavingNotes] = useState(false);
+  const [notesSuccessMessage, setNotesSuccessMessage] = useState(false);
   const messagesEndRef = useRef(null);
 
   // 1. Listen to Auth State and role
@@ -56,7 +67,6 @@ const Reportes = () => {
       setUser(currentUser);
       if (currentUser) {
         try {
-          const { getDoc } = await import('firebase/firestore');
           const userDocRef = doc(db, "usuarios", currentUser.uid);
           const userSnap = await getDoc(userDocRef);
           if (userSnap.exists()) {
@@ -84,15 +94,16 @@ const Reportes = () => {
     setLoadingMyReports(true);
     const q = query(
       collection(db, "reportes"),
-      where("userId", "==", user.uid),
-      orderBy("createdAt", "desc")
+      where("userId", "==", user.uid)
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const reports = [];
-      snapshot.forEach((doc) => {
-        reports.push({ id: doc.id, ...doc.data() });
+      snapshot.forEach((docSnap) => {
+        reports.push({ id: docSnap.id, ...docSnap.data() });
       });
+      // Sort client-side descending to avoid needing a Firestore composite index
+      reports.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
       setMyReports(reports);
       setLoadingMyReports(false);
     }, (err) => {
@@ -115,24 +126,35 @@ const Reportes = () => {
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const reports = [];
-      snapshot.forEach((doc) => {
-        reports.push({ id: doc.id, ...doc.data() });
+      snapshot.forEach((docSnap) => {
+        reports.push({ id: docSnap.id, ...docSnap.data() });
       });
       setAllReports(reports);
       setLoadingAdmin(false);
-
-      // If active ticket is currently open, update its references in real-time
-      if (activeTicket) {
-        const updated = reports.find(r => r.id === activeTicket.id);
-        if (updated) setActiveTicket(updated);
-      }
     }, (err) => {
       console.error("Error cargando todos los reportes para admin:", err);
       setLoadingAdmin(false);
     });
 
     return () => unsubscribe();
-  }, [user, role, activeTicket]);
+  }, [user, role]);
+
+  // 4. Real-time sync for the active ticket document (syncs status and notes for both student and admin)
+  useEffect(() => {
+    if (!activeTicket?.id) return;
+
+    const ticketDocRef = doc(db, "reportes", activeTicket.id);
+    const unsubscribe = onSnapshot(ticketDocRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const freshData = { id: docSnap.id, ...docSnap.data() };
+        setActiveTicket(prev => prev && prev.id === docSnap.id ? { ...prev, ...freshData } : freshData);
+      }
+    }, (err) => {
+      console.error("Error sincronizando ticket activo:", err);
+    });
+
+    return () => unsubscribe();
+  }, [activeTicket?.id]);
 
   // 4. Query messages for the active chat ticket
   useEffect(() => {
@@ -253,23 +275,246 @@ const Reportes = () => {
     }
   };
 
-  // Handle Admin notes submission for anonymous tickets
-  const handleSaveNotes = async () => {
-    if (!activeTicket) return;
+  // Handle tag insertion in resolution notes editor
+  const handleInsertTag = (tag) => {
+    setTempNotesText(prev => {
+      const trimmed = prev.trim();
+      return trimmed ? `${trimmed}\n[${tag}]: ` : `[${tag}]: `;
+    });
+  };
+
+  // Handle Admin notes submission
+  const handleSaveNotes = async (markAsResolved = false) => {
+    if (!activeTicket || savingNotes) return;
+    setSavingNotes(true);
     try {
       const docRef = doc(db, "reportes", activeTicket.id);
-      await updateDoc(docRef, {
+      const nowIso = new Date().toISOString();
+      const payload = {
         adminNotes: tempNotesText.trim(),
-        updatedAt: new Date().toISOString()
-      });
+        adminNotesUpdatedAt: nowIso,
+        adminNotesUpdatedBy: user?.email || "Directiva CEFIA",
+        updatedAt: nowIso
+      };
+
+      if (markAsResolved) {
+        payload.status = "Resuelto";
+      }
+
+      await updateDoc(docRef, payload);
       
-      // Update local activeTicket state with new notes
-      setActiveTicket(prev => ({ ...prev, adminNotes: tempNotesText.trim() }));
+      setActiveTicket(prev => prev ? ({ 
+        ...prev, 
+        ...payload
+      }) : null);
+
       setEditingNotes(false);
-      setTempNotesText("");
+      setNotesSuccessMessage(true);
+      setTimeout(() => setNotesSuccessMessage(false), 3500);
     } catch (err) {
       console.error("Error al guardar notas de resolución:", err);
+    } finally {
+      setSavingNotes(false);
     }
+  };
+
+  // Componente Modular de Notas de Resolución y Dictamen Oficial
+  const renderResolutionNotes = () => {
+    if (!activeTicket) return null;
+
+    const hasNotes = Boolean(activeTicket.adminNotes && activeTicket.adminNotes.trim());
+
+    return (
+      <div className={`resolution-notes-card glass-panel ${hasNotes ? 'has-resolution' : 'pending-resolution'}`}>
+        <div className="resolution-notes-header">
+          <div className="resolution-header-left">
+            <div className="resolution-icon-wrapper">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="resolution-shield-icon">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                <polyline points="9 12 11 14 15 10" />
+              </svg>
+            </div>
+            <div>
+              <div className="resolution-title-row">
+                <h4 className="resolution-title">Dictamen y Resolución Oficial</h4>
+                {hasNotes ? (
+                  <span className="resolution-badge-resolved">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="12" height="12"><polyline points="20 6 9 17 4 12"/></svg>
+                    Dictamen Registrado
+                  </span>
+                ) : (
+                  <span className="resolution-badge-pending">Pendiente de Dictamen</span>
+                )}
+              </div>
+              <p className="resolution-subtitle">
+                {activeTicket.adminNotesUpdatedAt ? (
+                  <>Última actualización: {new Date(activeTicket.adminNotesUpdatedAt).toLocaleDateString()} a las {new Date(activeTicket.adminNotesUpdatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}{activeTicket.adminNotesUpdatedBy ? ` • Por: ${activeTicket.adminNotesUpdatedBy}` : ''}</>
+                ) : (
+                  "Seguimiento institucional y medidas tomadas por la Directiva CEFIA"
+                )}
+              </p>
+            </div>
+          </div>
+
+          {role === 'admin' && !editingNotes && (
+            <button 
+              type="button"
+              className="resolution-action-btn edit-mode-btn"
+              onClick={() => {
+                setEditingNotes(true);
+                setTempNotesText(activeTicket.adminNotes || "");
+              }}
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="15" height="15">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              {hasNotes ? 'Editar Dictamen' : 'Redactar Dictamen'}
+            </button>
+          )}
+        </div>
+
+        {notesSuccessMessage && (
+          <div className="resolution-feedback-alert success-pulse">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
+            ¡Dictamen de resolución guardado con éxito!
+          </div>
+        )}
+
+        {editingNotes ? (
+          <div className="resolution-editor-container">
+            <div className="quick-tags-section">
+              <span className="quick-tags-label">Plantillas rápidas:</span>
+              <div className="quick-tags-list">
+                {QUICK_RESOLUTION_TAGS.map((tag) => (
+                  <button 
+                    key={tag} 
+                    type="button" 
+                    className="quick-tag-chip"
+                    onClick={() => handleInsertTag(tag)}
+                  >
+                    + {tag}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="resolution-textarea-wrapper">
+              <textarea 
+                value={tempNotesText}
+                onChange={(e) => setTempNotesText(e.target.value)}
+                placeholder="Escribe el dictamen o resolución formal del caso:&#10;• Acciones realizadas (reuniones con autoridades, reportes a servicios generales)&#10;• Acuerdos o compromisos alcanzados&#10;• Conclusión o estado final de la incidencia..."
+                rows="5"
+                className="resolution-textarea"
+                disabled={savingNotes}
+              />
+              <div className="textarea-footer">
+                <span className="char-count">{tempNotesText.length} caracteres</span>
+              </div>
+            </div>
+
+            <div className="resolution-editor-buttons">
+              <button 
+                type="button" 
+                className="resolution-btn save-btn"
+                onClick={() => handleSaveNotes(false)}
+                disabled={savingNotes || !tempNotesText.trim()}
+              >
+                {savingNotes ? (
+                  <span>Guardando...</span>
+                ) : (
+                  <>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                    Guardar Dictamen
+                  </>
+                )}
+              </button>
+
+              {activeTicket.status !== 'Resuelto' && (
+                <button 
+                  type="button" 
+                  className="resolution-btn resolve-and-save-btn"
+                  onClick={() => handleSaveNotes(true)}
+                  disabled={savingNotes || !tempNotesText.trim()}
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
+                  Guardar y Marcar como Resuelto
+                </button>
+              )}
+
+              <button 
+                type="button" 
+                className="resolution-btn cancel-btn"
+                onClick={() => {
+                  setEditingNotes(false);
+                  setTempNotesText("");
+                }}
+                disabled={savingNotes}
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="resolution-display-container">
+            {hasNotes ? (
+              <div className="resolution-content-box">
+                <div className="resolution-quote-bar"></div>
+                <div className="resolution-content-text">
+                  <p>{activeTicket.adminNotes}</p>
+                  <div className="resolution-meta-footer">
+                    <span className="resolution-author-pill">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="14" height="14"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                      {activeTicket.adminNotesUpdatedBy || "Directiva CEFIA"}
+                    </span>
+                    {activeTicket.adminNotesUpdatedAt && (
+                      <span className="resolution-time-pill">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="14" height="14"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        {new Date(activeTicket.adminNotesUpdatedAt).toLocaleDateString()} a las {new Date(activeTicket.adminNotesUpdatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="resolution-empty-state">
+                <div className="resolution-empty-state-left">
+                  <div className="empty-state-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="28" height="28">
+                      <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  </div>
+                  <div className="empty-state-text">
+                    <h5>Sin dictamen formal registrado</h5>
+                    <p>
+                      {role === 'admin' 
+                        ? "Como directivo, puedes asentar aquí las medidas tomadas con esta queja para mantener un archivo auditable."
+                        : "La directiva del Centro de Estudiantes está gestionando este caso. La resolución final se publicará en este espacio."}
+                    </p>
+                  </div>
+                </div>
+                {role === 'admin' && (
+                  <button 
+                    type="button" 
+                    className="resolution-btn create-empty-btn"
+                    onClick={() => {
+                      setEditingNotes(true);
+                      setTempNotesText("");
+                    }}
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
+                      <line x1="12" y1="5" x2="12" y2="19"></line>
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Redactar Dictamen Ahora
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
   };
 
   // Admin filter and search logic
@@ -364,49 +609,25 @@ const Reportes = () => {
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                   <polyline points="14 2 14 8 20 8"></polyline>
                 </svg>
-                <h3>Detalle de la Incidencia (Anónima)</h3>
+                <h3>Detalle de la Incidencia (Reporte Anónimo)</h3>
               </div>
               <div className="details-body">
                 <p className="details-text">{activeTicket.details}</p>
               </div>
 
-              {role === 'admin' && (
-                <div className="admin-notes-section" style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem', marginTop: '1.5rem' }}>
-                  <h4>Notas de Resolución / Seguimiento Estático:</h4>
-                  {editingNotes ? (
-                    <div className="notes-editor-wrapper">
-                      <textarea 
-                        value={tempNotesText} 
-                        onChange={(e) => setTempNotesText(e.target.value)}
-                        placeholder="Escribe aquí las notas de resolución o medidas tomadas con esta queja anónima..."
-                        rows="4"
-                      />
-                      <div className="editor-buttons">
-                        <button className="save-notes-btn" onClick={handleSaveNotes}>Guardar Notas</button>
-                        <button className="cancel-notes-btn" onClick={() => { setEditingNotes(false); setTempNotesText(""); }}>Cancelar</button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="notes-display-wrapper">
-                      <p className={activeTicket.adminNotes ? 'has-notes' : 'no-notes'}>
-                        {activeTicket.adminNotes || "Ninguna nota de resolución registrada todavía."}
-                      </p>
-                      <button 
-                        className="edit-notes-btn" 
-                        onClick={() => {
-                          setEditingNotes(true);
-                          setTempNotesText(activeTicket.adminNotes || "");
-                        }}
-                      >
-                        {activeTicket.adminNotes ? 'Editar notas de resolución' : 'Agregar notas de resolución'}
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
+              {/* Dictamen y Notas de Resolución */}
+              {renderResolutionNotes()}
             </div>
           ) : (
-            <div className="ticket-chat-box glass-panel">
+            <div className="ticket-chat-layout">
+              {/* Para tickets identificados: Si hay notas o si es directivo, mostrar el dictamen sobre el chat */}
+              {(activeTicket.adminNotes || role === 'admin') && (
+                <div className="chat-resolution-accordion">
+                  {renderResolutionNotes()}
+                </div>
+              )}
+
+              <div className="ticket-chat-box glass-panel">
               <div className="chat-messages-container">
                 
                 {/* Primer burbuja: Detalle inicial del reporte */}
@@ -464,7 +685,8 @@ const Reportes = () => {
                 </form>
               </div>
             </div>
-          )}
+          </div>
+        )}
 
         </div>
       </div>
@@ -566,6 +788,9 @@ const Reportes = () => {
                       <div className="header-meta">
                         <span className={`urgency-badge urgency-${report.urgency.toLowerCase()}`}>{report.urgency}</span>
                         <span className="category-tag">{report.category}</span>
+                        {report.adminNotes && (
+                          <span className="notes-pill" title="Cuenta con dictamen de resolución">✓ Con Dictamen</span>
+                        )}
                       </div>
                       
                       <span className={`status-badge-static ${STATUS_OPTIONS.find(o => o.value === report.status)?.color || 'status-gray'}`}>
@@ -757,6 +982,9 @@ const Reportes = () => {
                       <div className="header-meta">
                         <span className={`urgency-badge urgency-${report.urgency.toLowerCase()}`}>{report.urgency}</span>
                         <span className="category-tag">{report.category}</span>
+                        {report.adminNotes && (
+                          <span className="notes-pill" title="Caso con resolución emitida">✓ Con Dictamen</span>
+                        )}
                       </div>
                       
                       <span className={`status-badge-static ${STATUS_OPTIONS.find(o => o.value === report.status)?.color || 'status-gray'}`}>
