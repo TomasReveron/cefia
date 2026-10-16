@@ -81,16 +81,6 @@ const Sidebar = ({ isOpen, onClose }) => {
       )
     },
     {
-      name: 'Anuncios',
-      path: '/anuncios',
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
-          <path d="M2 13h10l8 5V6l-8 5H2v2Z" />
-        </svg>
-      )
-    },
-    {
       name: 'Reportes',
       path: '/reportes',
       icon: (
