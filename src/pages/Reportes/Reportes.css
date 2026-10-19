@@ -184,6 +184,7 @@
   position: relative;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   background: rgba(30, 41, 59, 0.4);
+  overflow: hidden;
 }
 
 [data-theme='light'] .report-admin-card,
@@ -197,28 +198,40 @@
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Bordes laterales por urgencia y efectos de sombra */
-.report-admin-card.urgency-alta,
-.report-student-card.urgency-alta {
-  border-left: 5px solid #ef4444;
-  box-shadow: inset 5px 0 0 -5px #ef4444;
+.report-admin-card::before,
+.report-student-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 5px;
+  background: transparent;
+  transition: background-color 0.3s ease;
 }
 
-.report-admin-card.urgency-media,
-.report-student-card.urgency-media {
-  border-left: 5px solid #f59e0b;
+/* Indicadores laterales por urgencia */
+.report-admin-card.urgency-alta::before,
+.report-student-card.urgency-alta::before {
+  background: #ef4444;
 }
 
-.report-admin-card.urgency-baja,
-.report-student-card.urgency-baja {
-  border-left: 5px solid #10b981;
+.report-admin-card.urgency-media::before,
+.report-student-card.urgency-media::before {
+  background: #f59e0b;
+}
+
+.report-admin-card.urgency-baja::before,
+.report-student-card.urgency-baja::before {
+  background: #10b981;
 }
 
 /* Cabecera de Tarjeta */
 .report-card-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  gap: 0.75rem;
   margin-bottom: 1.25rem;
 }
 
@@ -226,6 +239,9 @@
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  flex-wrap: wrap;
+  flex: 1;
+  min-width: 0;
 }
 
 .category-tag {
@@ -292,6 +308,8 @@
   font-weight: 800;
   text-align: center;
   text-transform: uppercase;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 /* Colores de estados */
@@ -901,8 +919,8 @@
 }
 
 /* 6. Historial de reportes del estudiante */
-.report-student-card {
-  border-left: 5px solid var(--border-color);
+.report-student-card::before {
+  background: var(--border-color);
 }
 
 .report-meta-date {
@@ -1577,6 +1595,7 @@
   padding: 0.15rem 0.45rem;
   border-radius: 6px;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 [data-theme='light'] .notes-pill {
