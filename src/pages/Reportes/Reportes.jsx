@@ -809,7 +809,7 @@ const Reportes = () => {
                       {report.isAnonymous ? (
                         <span className="anonymous-text">Enviado de forma Anónima</span>
                       ) : (
-                        <span className="identified-text">{report.userEmail || "Usuario Anonimo"}</span>
+                        <span className="identified-text" title={report.userEmail || "Usuario Anonimo"}>{report.userEmail || "Usuario Anonimo"}</span>
                       )}
                       <span className="report-date-sep">•</span>
                       <span className="report-date">{new Date(report.createdAt).toLocaleDateString()}</span>

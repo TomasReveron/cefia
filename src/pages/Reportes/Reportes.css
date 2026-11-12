@@ -169,7 +169,7 @@
 /* 3. Listado de Reportes en Malla */
 .reports-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
   gap: 1.5rem;
 }
 
@@ -185,6 +185,7 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   background: rgba(30, 41, 59, 0.4);
   overflow: hidden;
+  min-width: 0;
 }
 
 [data-theme='light'] .report-admin-card,
@@ -252,6 +253,8 @@
   padding: 0.2rem 0.6rem;
   border-radius: 8px;
   text-transform: uppercase;
+  max-width: 100%;
+  overflow-wrap: break-word;
 }
 
 [data-theme='light'] .category-tag {
@@ -266,6 +269,8 @@
   padding: 0.2rem 0.5rem;
   border-radius: 6px;
   letter-spacing: 0.5px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .urgency-badge.urgency-alta {
@@ -330,6 +335,7 @@
   color: var(--text-primary);
   margin: 0.5rem 0 0.75rem 0;
   line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
 .report-details {
@@ -338,6 +344,7 @@
   margin-bottom: 1.5rem;
   line-height: 1.55;
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
   flex: 1;
 }
 
@@ -349,11 +356,14 @@
   color: var(--text-secondary);
   border-top: 1px solid var(--border-color);
   padding-top: 1rem;
+  min-width: 0;
+  width: 100%;
 }
 
 .report-user-info .user-icon {
   width: 14px;
   height: 14px;
+  flex-shrink: 0;
   color: var(--text-secondary);
   opacity: 0.75;
 }
@@ -362,15 +372,29 @@
   font-style: italic;
   font-weight: 600;
   color: var(--text-secondary);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .identified-text {
   font-weight: 700;
   color: var(--text-primary);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .report-date-sep {
   opacity: 0.4;
+  flex-shrink: 0;
+}
+
+.report-date {
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .open-ticket-btn {
@@ -382,6 +406,10 @@
   align-items: center;
   border-radius: 12px;
   gap: 0.25rem;
+}
+
+.open-ticket-btn .chat-btn-icon {
+  flex-shrink: 0;
 }
 
 /* 4. SECCIÓN INTERACTIVA DE CHAT / TICKET (Premium Desk Interface) */
@@ -1596,6 +1624,7 @@
   border-radius: 6px;
   text-transform: uppercase;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 [data-theme='light'] .notes-pill {
