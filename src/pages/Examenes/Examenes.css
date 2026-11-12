@@ -1,72 +1,5 @@
 .examenes-page {
-  animation: slideUp 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.page-title {
-  font-size: 2.5rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.page-subtitle {
-  font-size: 1.1rem;
-  color: var(--text-secondary);
-  margin-bottom: 3rem;
-}
-
-.center-message {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--text-secondary);
-  font-size: 1.2rem;
-  height: 50vh;
-}
-
-.empty-message {
-  color: var(--text-secondary);
-  text-align: center;
-  padding: 2rem;
-}
-
-/* Nivel 1: Tab de Carreras */
-.careers-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-bottom: 2rem;
-  justify-content: center;
-}
-
-.career-tab {
-  padding: 0.6rem 1.25rem;
-  border-radius: 30px;
-  background-color: var(--surface-color);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.career-tab:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-[data-theme='light'] .career-tab:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-}
-
-.career-tab.active {
-  background-color: var(--accent);
-  color: white;
-  border-color: var(--accent);
-  box-shadow: 0 4px 10px rgba(76, 95, 217, 0.3);
+  animation: slideUp 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 /* Nivel 2: Acordeones de Materias */
@@ -79,7 +12,7 @@
 .subject-accordion {
   border-radius: 12px;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
   border: 1px solid var(--border-color);
 }
 
@@ -432,9 +365,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.72);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -569,25 +500,6 @@
   color: var(--accent-hover);
 }
 
-.got-it-btn {
-  width: 100%;
-  padding: 0.8rem;
-  margin-top: 2rem;
-  background: var(--accent);
-  color: white;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 1rem;
-  transition: var(--transition);
-  border: none;
-}
-
-.got-it-btn:hover {
-  background: var(--accent-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
-}
-
 /* Panel de Administración de Exámenes */
 .admin-exams-panel {
   background: var(--surface-color);
@@ -658,38 +570,6 @@
 .selected-filename {
   font-size: 0.9rem;
   color: var(--text-primary);
-}
-
-.upload-message {
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-}
-
-.upload-message.error-message {
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  color: #f87171;
-}
-
-[data-theme='light'] .upload-message.error-message {
-  background: rgba(239, 68, 68, 0.05);
-  color: #dc2626;
-}
-
-.upload-message.success-message {
-  background: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  color: #34d399;
-}
-
-[data-theme='light'] .upload-message.success-message {
-  background: rgba(16, 185, 129, 0.05);
-  color: #059669;
 }
 
 /* Contenedor de Vista Previa */
@@ -868,22 +748,6 @@
   background: #ef4444;
   color: white;
   border-color: #ef4444;
-}
-
-.spinner {
-  display: inline-block;
-  width: 1.2rem;
-  height: 1.2rem;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top-color: white;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 @media (max-width: 768px) {

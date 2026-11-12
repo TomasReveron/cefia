@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { onAuthStateChanged } from 'firebase/auth';
-import { db, auth } from '../../firebase';
+import { useState, useEffect, useMemo } from 'react';
+import { doc, onSnapshot, setDoc } from 'firebase/firestore';
+import { db } from '../../firebaseDb';
+import { useAuth } from '../../hooks/useAuth';
 import './Examenes.css';
 
 const Examenes = () => {
@@ -15,69 +15,43 @@ const Examenes = () => {
   const [isMobileDevice, setIsMobileDevice] = useState(false);
   const [pendingDownload, setPendingDownload] = useState(null);
 
-  // Authentication and role states
-  const [user, setUser] = useState(null);
-  const [role, setRole] = useState(null);
+  const { role } = useAuth();
 
   // Excel upload and preview states
   const [excelFile, setExcelFile] = useState(null);
   const [previewData, setPreviewData] = useState(null);
   const [previewCareers, setPreviewCareers] = useState([]);
   const [previewActiveCareer, setPreviewActiveCareer] = useState('');
-  const [previewActiveSubject, setPreviewActiveSubject] = useState('');
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState('');
   const [uploadSuccess, setUploadSuccess] = useState(false);
 
-  // Listen to Auth State and role
+  // Listen to Exams dates (serves IndexedDB cache immediately and syncs updates)
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      if (currentUser) {
-        try {
-          const userDocRef = doc(db, "usuarios", currentUser.uid);
-          const userSnap = await getDoc(userDocRef);
-          if (userSnap.exists()) {
-            setRole(userSnap.data().role || 'estudiante');
-          } else {
-            setRole('estudiante');
-          }
-        } catch (err) {
-          console.error("Error al obtener rol del usuario:", err);
-          setRole('estudiante');
-        }
-      } else {
-        setRole(null);
-      }
-    });
-    return () => unsubscribe();
-  }, []);
-
-  // Fetch Exams dates on load
-  useEffect(() => {
-    const fetchExams = async () => {
-      try {
-        const docRef = doc(db, "examenes", "main_data");
-        const docSnap = await getDoc(docRef);
+    const docRef = doc(db, "examenes", "main_data");
+    const unsubscribe = onSnapshot(
+      docRef,
+      (docSnap) => {
         if (docSnap.exists()) {
           const json = docSnap.data().data || {};
           setData(json);
           const careerList = Object.keys(json).sort();
           setCareers(careerList);
           if (careerList.length > 0) {
-            setActiveCareer(careerList[0]);
+            setActiveCareer((prev) => (prev && careerList.includes(prev) ? prev : careerList[0]));
           }
         } else {
           console.warn("Documento 'examenes/main_data' no encontrado en Firestore.");
         }
-      } catch (err) {
+        setLoading(false);
+      },
+      (err) => {
         console.error("Error cargando los exámenes desde Firestore:", err);
-      } finally {
         setLoading(false);
       }
-    };
+    );
 
-    fetchExams();
+    return () => unsubscribe();
   }, []);
 
   // Helper to format Excel date serial numbers to string (DD/MM/YYYY)
@@ -362,27 +336,34 @@ const Examenes = () => {
     setPendingDownload(null);
   };
 
-  if (loading) {
-    return <div className="examenes-page fade-in center-message">Cargando fechas de exámenes...</div>;
-  }
-
-  // Lógica de búsqueda
-  let searchResults = [];
-  if (searchTerm.trim().length > 0) {
-    const term = searchTerm.toLowerCase();
-    Object.keys(data).forEach(c => {
-      Object.keys(data[c]).forEach(s => {
+  // Lógica de búsqueda memoizada
+  const searchResults = useMemo(() => {
+    const trimmed = searchTerm.trim();
+    if (!trimmed) return [];
+    const term = trimmed.toLowerCase();
+    const results = [];
+    Object.keys(data).forEach((c) => {
+      Object.keys(data[c]).forEach((s) => {
         if (s.toLowerCase().includes(term)) {
-          searchResults.push({ career: c, subject: s, classes: data[c][s] });
+          results.push({ career: c, subject: s, classes: data[c][s] });
         }
       });
     });
-    // Ordenar alfabéticamente por materia
-    searchResults.sort((a, b) => a.subject.localeCompare(b.subject));
-  }
+    results.sort((a, b) => a.subject.localeCompare(b.subject));
+    return results;
+  }, [data, searchTerm]);
 
-  const subjectsForCareer = data[activeCareer] || {};
-  const subjectNames = Object.keys(subjectsForCareer).sort();
+  const subjectsForCareer = useMemo(() => data[activeCareer] || {}, [data, activeCareer]);
+  const subjectNames = useMemo(() => Object.keys(subjectsForCareer).sort(), [subjectsForCareer]);
+
+  if (loading) {
+    return (
+      <div className="examenes-page fade-in center-message">
+        <span className="spinner" style={{ marginRight: '0.75rem' }}></span>
+        Cargando fechas de exámenes...
+      </div>
+    );
+  }
 
   return (
     <div className="examenes-page fade-in">
@@ -432,7 +413,6 @@ const Examenes = () => {
                         className={`career-tab ${previewActiveCareer === career ? 'active' : ''}`}
                         onClick={() => {
                           setPreviewActiveCareer(career);
-                          setPreviewActiveSubject('');
                         }}
                       >
                         {previewActiveCareer === career && <span className="active-indicator"></span>}

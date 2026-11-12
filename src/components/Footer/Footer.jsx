@@ -8,7 +8,15 @@ const Footer = () => {
       <div className="footer-content container">
         <div className="footer-left">
           <div className="footer-logo-container">
-            <img src="/CefiaLogo.png" alt="Logo de CEFIA" className="footer-logo-img" />
+            <img
+              src="/CefiaLogo.webp"
+              alt="Logo de CEFIA"
+              className="footer-logo-img"
+              width="54"
+              height="38"
+              loading="lazy"
+              decoding="async"
+            />
             <span className="footer-logo">CEFIA</span>
           </div>
           <p className="footer-copyright">

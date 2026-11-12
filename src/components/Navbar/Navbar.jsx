@@ -15,7 +15,14 @@ const Navbar = ({ onMenuClick }) => {
       </button>
 
       <div className="navbar-center" title="Volver al inicio">
-        <img src="/CefiaLogo.png" alt="Logo de CEFIA" className="navbar-logo-img" />
+        <img
+          src="/CefiaLogo.webp"
+          alt="Logo de CEFIA"
+          className="navbar-logo-img"
+          width="51"
+          height="36"
+          decoding="async"
+        />
         <span className="navbar-logo-text">CEFIA</span>
       </div>
 

@@ -2,8 +2,8 @@ const xlsx = require('xlsx');
 const fs = require('fs');
 const path = require('path');
 
-const FILE_PATH = path.join(__dirname, '../public/Fechas Parciales 2026-2.xlsx');
-const OUT_PATH = path.join(__dirname, '../public/exam_data.json');
+const FILE_PATH = path.join(__dirname, '../data/Fechas Parciales 2026-2.xlsx');
+const OUT_PATH = path.join(__dirname, '../data/exam_data.json');
 
 function formatDate(excelValue) {
   // If it's empty, return "Por Definir" or blank
@@ -134,7 +134,7 @@ try {
 
   fs.writeFileSync(OUT_PATH, JSON.stringify(structuredData, null, 2), 'utf-8');
   console.log(`✅ ¡Éxito! Se agruparon ${allExams.length} secciones de la facultad.`);
-  console.log(`✅ Datos limpiados guardados en: public/exam_data.json`);
+  console.log(`✅ Datos limpiados guardados en: data/exam_data.json`);
 } catch (error) {
   console.error('❌ Error convirtiendo el archivo:', error.message);
 }

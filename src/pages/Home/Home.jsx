@@ -8,6 +8,28 @@ const Home = () => {
     <div className="home-page fade-in">
       {/* Hero Section */}
       <section className="hero-section">
+        <picture>
+          <source
+            type="image/avif"
+            srcSet="/fondo-inicio-mobile.avif 800w, /fondo-inicio.avif 1600w"
+            sizes="100vw"
+          />
+          <source
+            type="image/webp"
+            srcSet="/fondo-inicio-mobile.webp 800w, /fondo-inicio.webp 1600w"
+            sizes="100vw"
+          />
+          <img
+            src="/fondo-inicio.webp"
+            alt=""
+            aria-hidden="true"
+            width={1600}
+            height={1245}
+            fetchPriority="high"
+            decoding="async"
+            className="hero-bg-img"
+          />
+        </picture>
         <div className="hero-overlay"></div>
         <div className="hero-content">
           <h1>Bienvenidos al sitio web de CEFIA</h1>

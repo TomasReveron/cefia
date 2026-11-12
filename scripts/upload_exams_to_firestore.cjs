@@ -24,7 +24,7 @@ if (fs.existsSync(envPath)) {
   });
 }
 
-const JSON_PATH = path.join(__dirname, '../public/exam_data.json');
+const JSON_PATH = path.join(__dirname, '../data/exam_data.json');
 
 if (!fs.existsSync(JSON_PATH)) {
   console.error(`❌ No se encontró el archivo JSON de exámenes en: ${JSON_PATH}`);
@@ -52,7 +52,7 @@ try {
   });
 
   const db = getFirestore();
-  console.log('⏳ Leyendo archivo public/exam_data.json...');
+  console.log('⏳ Leyendo archivo data/exam_data.json...');
   const examDataRaw = fs.readFileSync(JSON_PATH, 'utf8');
   const examData = JSON.parse(examDataRaw);
 

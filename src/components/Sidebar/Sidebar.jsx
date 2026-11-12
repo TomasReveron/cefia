@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
-import { auth, db } from '../../firebase';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../firebase';
+import { useAuth } from '../../hooks/useAuth';
 import './Sidebar.css';
 
 const Sidebar = ({ isOpen, onClose }) => {
-  const [user, setUser] = useState(null);
-  const [role, setRole] = useState(null);
+  const { user, role } = useAuth();
   const navigate = useNavigate();
 
   // Prevent scrolling when sidebar is open
@@ -22,29 +21,6 @@ const Sidebar = ({ isOpen, onClose }) => {
       document.body.style.overflow = 'unset';
     };
   }, [isOpen]);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      if (currentUser) {
-        try {
-          const userDocRef = doc(db, "usuarios", currentUser.uid);
-          const userSnap = await getDoc(userDocRef);
-          if (userSnap.exists()) {
-            setRole(userSnap.data().role || 'estudiante');
-          } else {
-            setRole('estudiante');
-          }
-        } catch (err) {
-          console.error("Error al obtener rol del usuario:", err);
-          setRole('estudiante');
-        }
-      } else {
-        setRole(null);
-      }
-    });
-    return () => unsubscribe();
-  }, []);
 
   const handleLogout = async () => {
     try {

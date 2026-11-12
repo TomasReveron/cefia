@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
+import { auth, requestForToken } from '../../firebase';
+import { db } from '../../firebaseDb';
+import { useAuth } from '../../hooks/useAuth';
 import './Login.css';
 
 const Login = () => {
@@ -9,17 +12,15 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
   const navigate = useNavigate();
 
-  // If already logged in, redirect to Announcements
+  // If already logged in, redirect to Exams
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigate('/examenes');
-      }
-    });
-    return () => unsubscribe();
-  }, [navigate]);
+    if (user) {
+      navigate('/examenes');
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,9 +38,6 @@ const Login = () => {
 
       // Update/Request Push Notification Token
       try {
-        const { doc, updateDoc, arrayUnion } = await import('firebase/firestore');
-        const { db, requestForToken } = await import('../../firebase');
-        
         const result = await requestForToken();
         if (result) {
           const userDocRef = doc(db, "usuarios", user.uid);
@@ -86,7 +84,14 @@ const Login = () => {
       <div className="login-container">
         <form className="login-card glass-panel" onSubmit={handleSubmit}>
           <div className="login-header">
-            <img src="/CefiaLogo.png" alt="Logo de CEFIA" className="login-logo" />
+            <img
+              src="/CefiaLogo.webp"
+              alt="Logo de CEFIA"
+              className="login-logo"
+              width="70"
+              height="49"
+              decoding="async"
+            />
             <h1>Acceso de Administrador</h1>
             <p>Portal de gestión interna para delegados y directiva de CEFIA.</p>
           </div>

@@ -7,10 +7,9 @@
 .main-content {
   flex: 1;
   margin-top: 70px;
-  transition: var(--transition);
+  transition: opacity 0.2s ease;
 }
 
 .main-content.sidebar-open {
-  filter: blur(4px);
   pointer-events: none;
 }

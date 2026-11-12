@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { collection, addDoc, onSnapshot, doc, getDoc, updateDoc, query, where, orderBy } from 'firebase/firestore';
-import { onAuthStateChanged } from 'firebase/auth';
-import { db, auth } from '../../firebase';
+import { collection, addDoc, onSnapshot, doc, updateDoc, query, where, orderBy } from 'firebase/firestore';
+import { db } from '../../firebaseDb';
+import { useAuth } from '../../hooks/useAuth';
 import './Reportes.css';
 
 const CATEGORIES = ["Académico", "Infraestructura", "Servicios Estudiantiles", "Seguridad/Acoso", "Otros"];
@@ -22,10 +22,8 @@ const QUICK_RESOLUTION_TAGS = [
 ];
 
 const Reportes = () => {
-  // Auth states
-  const [user, setUser] = useState(null);
-  const [role, setRole] = useState(null);
-  const [loadingAuth, setLoadingAuth] = useState(true);
+  // Shared Auth state
+  const { user, role, loadingAuth } = useAuth();
 
   // Student form states
   const [category, setCategory] = useState("Académico");
@@ -61,31 +59,12 @@ const Reportes = () => {
   const [notesSuccessMessage, setNotesSuccessMessage] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // 1. Listen to Auth State and role
+  // 1. Reset student tab if user logs out
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      if (currentUser) {
-        try {
-          const userDocRef = doc(db, "usuarios", currentUser.uid);
-          const userSnap = await getDoc(userDocRef);
-          if (userSnap.exists()) {
-            setRole(userSnap.data().role || 'estudiante');
-          } else {
-            setRole('estudiante');
-          }
-        } catch (err) {
-          console.error("Error al obtener rol del usuario:", err);
-          setRole('estudiante');
-        }
-      } else {
-        setRole(null);
-        setStudentTab("form");
-      }
-      setLoadingAuth(false);
-    });
-    return () => unsubscribe();
-  }, []);
+    if (!user) {
+      setStudentTab("form");
+    }
+  }, [user]);
 
   // 2. Query personal reports (Student history)
   useEffect(() => {
@@ -157,11 +136,12 @@ const Reportes = () => {
   }, [activeTicket?.id]);
 
   // 4. Query messages for the active chat ticket
+  const activeTicketId = activeTicket?.id;
   useEffect(() => {
-    if (!activeTicket) return;
+    if (!activeTicketId) return;
 
     const q = query(
-      collection(db, "reportes", activeTicket.id, "mensajes"),
+      collection(db, "reportes", activeTicketId, "mensajes"),
       orderBy("createdAt", "asc")
     );
 
@@ -181,7 +161,7 @@ const Reportes = () => {
     });
 
     return () => unsubscribe();
-  }, [activeTicket]);
+  }, [activeTicketId]);
 
   // Handle student submit report
   const handleSubmitReport = async (e) => {

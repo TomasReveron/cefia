@@ -1,26 +1,31 @@
+import { lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import MainLayout from './components/MainLayout/MainLayout';
 import Home from './pages/Home/Home';
-import Examenes from './pages/Examenes/Examenes';
-import Anuncios from './pages/Anuncios/Anuncios';
-import Reportes from './pages/Reportes/Reportes';
-import Login from './pages/Login/Login';
-import Register from './pages/Register/Register';
+
+const Examenes = lazy(() => import('./pages/Examenes/Examenes'));
+const Anuncios = lazy(() => import('./pages/Anuncios/Anuncios'));
+const Reportes = lazy(() => import('./pages/Reportes/Reportes'));
+const Login = lazy(() => import('./pages/Login/Login'));
+const Register = lazy(() => import('./pages/Register/Register'));
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<Home />} />
-          <Route path="examenes" element={<Examenes />} />
-          <Route path="anuncios" element={<Anuncios />} />
-          <Route path="reportes" element={<Reportes />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<Home />} />
+            <Route path="examenes" element={<Examenes />} />
+            <Route path="anuncios" element={<Anuncios />} />
+            <Route path="reportes" element={<Reportes />} />
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

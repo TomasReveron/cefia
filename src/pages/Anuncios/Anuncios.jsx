@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
-import { collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, getDoc } from 'firebase/firestore';
-import { onAuthStateChanged } from 'firebase/auth';
-import { db, auth } from '../../firebase';
+import { collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
+import { db } from '../../firebaseDb';
+import { useAuth } from '../../hooks/useAuth';
 import './Anuncios.css';
 
 const CATEGORIES = ["Todos", "Académico", "Eventos", "Urgente", "General"];
@@ -10,8 +10,7 @@ const Anuncios = () => {
   // DB & Auth states
   const [anuncios, setAnuncios] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
-  const [role, setRole] = useState(null);
+  const { role } = useAuth();
 
   // Search & Filter states
   const [searchTerm, setSearchTerm] = useState("");
@@ -32,30 +31,6 @@ const Anuncios = () => {
   const [formUrgent, setFormUrgent] = useState(false);
   const [formError, setFormError] = useState("");
   const [formSubmitting, setFormSubmitting] = useState(false);
-
-  // Listen to Auth State and role
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      if (currentUser) {
-        try {
-          const userDocRef = doc(db, "usuarios", currentUser.uid);
-          const userSnap = await getDoc(userDocRef);
-          if (userSnap.exists()) {
-            setRole(userSnap.data().role || 'estudiante');
-          } else {
-            setRole('estudiante');
-          }
-        } catch (err) {
-          console.error("Error al obtener rol del usuario:", err);
-          setRole('estudiante');
-        }
-      } else {
-        setRole(null);
-      }
-    });
-    return () => unsubscribe();
-  }, []);
 
   // Listen to Firestore collection 'anuncios' (starts empty, no seeding anymore)
   useEffect(() => {

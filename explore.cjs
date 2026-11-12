@@ -1,6 +1,6 @@
 const xlsx = require('xlsx');
 
-const workbook = xlsx.readFile("./public/Fechas Parciales 2026-2.xlsx");
+const workbook = xlsx.readFile("./data/Fechas Parciales 2026-2.xlsx");
 
 workbook.SheetNames.forEach(sheetName => {
   console.log(`\n\n=== SHEET: ${sheetName} ===`);

@@ -2,14 +2,15 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-import { auth, db, requestForToken } from '../../firebase';
+import { auth, requestForToken } from '../../firebase';
+import { db } from '../../firebaseDb';
 import './Register.css';
 
 const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [role, setRole] = useState('estudiante'); // 'estudiante' or 'admin'
+  const role = 'estudiante'; // Default student role
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -97,7 +98,14 @@ const Register = () => {
       <div className="register-container">
         <form className="register-card glass-panel" onSubmit={handleSubmit}>
           <div className="register-header">
-            <img src="/CefiaLogo.png" alt="Logo de CEFIA" className="register-logo" />
+            <img
+              src="/CefiaLogo.webp"
+              alt="Logo de CEFIA"
+              className="register-logo"
+              width="70"
+              height="49"
+              decoding="async"
+            />
             <h1>Crear Cuenta</h1>
             <p>Regístrate para mantenerte informado y configurar tus notificaciones.</p>
           </div>

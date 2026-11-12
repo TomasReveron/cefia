@@ -2,13 +2,20 @@
   position: relative;
   width: 100%;
   min-height: calc(100vh - 70px);
-  background-image: url('/fondo-inicio.jpg');
+  background-color: #1e2532;
+  background-image: url('/fondo-inicio.webp');
   background-size: cover;
   background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2rem 1rem;
+}
+
+@media (max-width: 768px) {
+  .login-page {
+    background-image: url('/fondo-inicio-mobile.webp');
+  }
 }
 
 .login-overlay {
@@ -178,20 +185,6 @@
 .login-submit-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-}
-
-/* Spinner styling */
-.spinner {
-  width: 1.5rem;
-  height: 1.5rem;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top-color: #ffffff;
-  animation: spin 1s ease-in-out infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
 }
 
 @media (max-width: 480px) {
