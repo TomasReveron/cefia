@@ -1,0 +1,366 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // This security rules file assumes the following data structures:
+    //
+    // Collection: usuarios
+    // Document ID: {userId} (matches Firebase Auth UID)
+    // Fields:
+    //   - email: string (required, valid email <= 254 chars, matches auth token email on create, immutable)
+    //   - role: string (required, 'estudiante' | 'admin'; forced 'estudiante' on create, immutable on update)
+    //   - createdAt: string (required, ISO 8601 <= 40 chars, immutable)
+    //   - notificationPermission: string (required, 'default' | 'granted' | 'denied')
+    //   - fcmTokens: list<string> (required, max 20 items, each string 1..512 chars)
+    //
+    // Collection: examenes
+    // Document ID: main_data
+    // Fields:
+    //   - data: map (required, nested career -> subject -> list of sections, max 50 career keys)
+    //   - updatedAt: string (required, ISO 8601 <= 40 chars)
+    //
+    // Collection: anuncios
+    // Document ID: {anuncioId} (auto-generated)
+    // Fields:
+    //   - title: string (required, 1..150 chars)
+    //   - category: string (required, 'Académico' | 'Eventos' | 'Urgente' | 'General')
+    //   - date: string (required, YYYY-MM-DD format)
+    //   - summary: string (required, 1..250 chars)
+    //   - content: string (required, 1..20000 chars)
+    //   - pinned: bool (required)
+    //   - urgent: bool (required)
+    //
+    // Collection: reportes
+    // Document ID: {reporteId} (auto-generated)
+    // Fields:
+    //   - category: string (required, 'Académico' | 'Infraestructura' | 'Servicios Estudiantiles' | 'Seguridad/Acoso' | 'Otros', immutable)
+    //   - urgency: string (required, 'Baja' | 'Media' | 'Alta', immutable)
+    //   - subject: string (required, 1..150 chars, immutable)
+    //   - details: string (required, 1..10000 chars, immutable)
+    //   - isAnonymous: bool (required, immutable)
+    //   - status: string (required, 'Recibido' | 'En Revisión' | 'Resuelto' | 'Archivado'; forced 'Recibido' on create)
+    //   - createdAt: string (required, ISO 8601 <= 40 chars, immutable)
+    //   - updatedAt: string (required, ISO 8601 <= 40 chars)
+    //   - userId: string (required iff isAnonymous == false, forbidden if isAnonymous == true, 1..128 chars, immutable)
+    //   - userEmail: string (required iff isAnonymous == false, forbidden if isAnonymous == true, valid email <= 254 chars, immutable)
+    //   - adminNotes: string (optional on update only, forbidden on create, 0..5000 chars)
+    //   - adminNotesUpdatedAt: string (optional on update only, forbidden on create, ISO 8601 <= 40 chars)
+    //   - adminNotesUpdatedBy: string (optional on update only, forbidden on create, <= 254 chars)
+    //
+    // Subcollection: reportes/{reporteId}/mensajes
+    // Document ID: {mensajeId} (auto-generated)
+    // Fields:
+    //   - senderId: string (required, == request.auth.uid, 1..128 chars)
+    //   - senderEmail: string (required, valid email <= 254 chars, matches auth token email)
+    //   - senderRole: string (required, 'admin' | 'estudiante', verified against caller's actual role)
+    //   - text: string (required, 1..3000 chars)
+    //   - createdAt: string (required, ISO 8601 <= 40 chars)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    // Check if the user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Check if user owns the resource (for user-owned documents)
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Check if the authenticated user has admin privileges.
+    // Supports optional custom claim OR verified Firestore role in usuarios/{uid}
+    // without requiring email_verified (matching existing cefia-web Auth accounts).
+    function isAdmin() {
+      return isAuthenticated() && (
+        ('role' in request.auth.token && request.auth.token.role == 'admin') ||
+        (
+          exists(/databases/$(database)/documents/usuarios/$(request.auth.uid)) &&
+          get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.get('role', '') == 'admin'
+        )
+      );
+    }
+
+    // Validate required fields exist
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    // Validate that the document contains only the allowed fields
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    // Validate that immutable fields have not changed on update
+    function areImmutableFieldsUnchanged(fields) {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
+    }
+
+    // Validate email format
+    function isValidEmail(email) {
+      return email is string &&
+             email.size() <= 254 &&
+             email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    // Validate ISO 8601 datetime string format (e.g. 2026-11-12T02:26:07.123Z)
+    function isValidDateString(dateStr) {
+      return dateStr is string &&
+             dateStr.size() <= 40 &&
+             dateStr.matches("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,9})?(Z|[+-]\\d{2}:\\d{2})?$");
+    }
+
+    // Validate YYYY-MM-DD date string format
+    function isValidShortDate(dateStr) {
+      return dateStr is string &&
+             dateStr.size() == 10 &&
+             dateStr.matches("^\\d{4}-\\d{2}-\\d{2}$");
+    }
+
+    // Validate an individual FCM token entry
+    function isValidFcmTokenItem(token) {
+      return token is string && token.size() >= 1 && token.size() <= 512;
+    }
+
+    // Deep inspection of fcmTokens list (bounded at 20 tokens per user)
+    function isValidFcmTokensList(tokens) {
+      return tokens is list &&
+             tokens.size() <= 20 &&
+             (tokens.size() < 1 || isValidFcmTokenItem(tokens[0])) &&
+             (tokens.size() < 2 || isValidFcmTokenItem(tokens[1])) &&
+             (tokens.size() < 3 || isValidFcmTokenItem(tokens[2])) &&
+             (tokens.size() < 4 || isValidFcmTokenItem(tokens[3])) &&
+             (tokens.size() < 5 || isValidFcmTokenItem(tokens[4])) &&
+             (tokens.size() < 6 || isValidFcmTokenItem(tokens[5])) &&
+             (tokens.size() < 7 || isValidFcmTokenItem(tokens[6])) &&
+             (tokens.size() < 8 || isValidFcmTokenItem(tokens[7])) &&
+             (tokens.size() < 9 || isValidFcmTokenItem(tokens[8])) &&
+             (tokens.size() < 10 || isValidFcmTokenItem(tokens[9])) &&
+             (tokens.size() < 11 || isValidFcmTokenItem(tokens[10])) &&
+             (tokens.size() < 12 || isValidFcmTokenItem(tokens[11])) &&
+             (tokens.size() < 13 || isValidFcmTokenItem(tokens[12])) &&
+             (tokens.size() < 14 || isValidFcmTokenItem(tokens[13])) &&
+             (tokens.size() < 15 || isValidFcmTokenItem(tokens[14])) &&
+             (tokens.size() < 16 || isValidFcmTokenItem(tokens[15])) &&
+             (tokens.size() < 17 || isValidFcmTokenItem(tokens[16])) &&
+             (tokens.size() < 18 || isValidFcmTokenItem(tokens[17])) &&
+             (tokens.size() < 19 || isValidFcmTokenItem(tokens[18])) &&
+             (tokens.size() < 20 || isValidFcmTokenItem(tokens[19]));
+    }
+
+    // ===============================================================
+    // Domain Validators (Used in BOTH create and update)
+    // ===============================================================
+
+    function isValidUser(data) {
+      return hasOnlyAllowedFields(['email', 'role', 'createdAt', 'notificationPermission', 'fcmTokens']) &&
+             hasRequiredFields(['email', 'role', 'createdAt', 'notificationPermission', 'fcmTokens']) &&
+             isValidEmail(data.email) &&
+             data.role in ['estudiante', 'admin'] &&
+             isValidDateString(data.createdAt) &&
+             data.notificationPermission in ['default', 'granted', 'denied'] &&
+             isValidFcmTokensList(data.fcmTokens);
+    }
+
+    function isValidExamenesDoc(data) {
+      return hasOnlyAllowedFields(['data', 'updatedAt']) &&
+             hasRequiredFields(['data', 'updatedAt']) &&
+             data.data is map &&
+             data.data.size() >= 1 &&
+             data.data.size() <= 50 &&
+             isValidDateString(data.updatedAt);
+    }
+
+    function isValidAnuncio(data) {
+      return hasOnlyAllowedFields(['title', 'category', 'date', 'summary', 'content', 'pinned', 'urgent']) &&
+             hasRequiredFields(['title', 'category', 'date', 'summary', 'content', 'pinned', 'urgent']) &&
+             data.title is string && data.title.size() >= 1 && data.title.size() <= 150 &&
+             data.category in ['Académico', 'Eventos', 'Urgente', 'General'] &&
+             isValidShortDate(data.date) &&
+             data.summary is string && data.summary.size() >= 1 && data.summary.size() <= 250 &&
+             data.content is string && data.content.size() >= 1 && data.content.size() <= 20000 &&
+             data.pinned is bool &&
+             data.urgent is bool;
+    }
+
+    function isValidReporte(data) {
+      return hasOnlyAllowedFields([
+               'category', 'urgency', 'subject', 'details', 'isAnonymous',
+               'status', 'createdAt', 'updatedAt', 'userId', 'userEmail',
+               'adminNotes', 'adminNotesUpdatedAt', 'adminNotesUpdatedBy'
+             ]) &&
+             hasRequiredFields([
+               'category', 'urgency', 'subject', 'details', 'isAnonymous',
+               'status', 'createdAt', 'updatedAt'
+             ]) &&
+             data.category in ['Académico', 'Infraestructura', 'Servicios Estudiantiles', 'Seguridad/Acoso', 'Otros'] &&
+             data.urgency in ['Baja', 'Media', 'Alta'] &&
+             data.subject is string && data.subject.size() >= 1 && data.subject.size() <= 150 &&
+             data.details is string && data.details.size() >= 1 && data.details.size() <= 10000 &&
+             data.isAnonymous is bool &&
+             data.status in ['Recibido', 'En Revisión', 'Resuelto', 'Archivado'] &&
+             isValidDateString(data.createdAt) &&
+             isValidDateString(data.updatedAt) &&
+             (!('adminNotes' in data) || (data.adminNotes is string && data.adminNotes.size() <= 5000)) &&
+             (!('adminNotesUpdatedAt' in data) || isValidDateString(data.adminNotesUpdatedAt)) &&
+             (!('adminNotesUpdatedBy' in data) || (data.adminNotesUpdatedBy is string && data.adminNotesUpdatedBy.size() <= 254)) &&
+             (
+               (data.isAnonymous == true && !('userId' in data) && !('userEmail' in data)) ||
+               (
+                 data.isAnonymous == false &&
+                 'userId' in data && data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+                 'userEmail' in data && isValidEmail(data.userEmail)
+               )
+             );
+    }
+
+    function isValidMensaje(data) {
+      return hasOnlyAllowedFields(['senderId', 'senderEmail', 'senderRole', 'text', 'createdAt']) &&
+             hasRequiredFields(['senderId', 'senderEmail', 'senderRole', 'text', 'createdAt']) &&
+             data.senderId is string && data.senderId.size() >= 1 && data.senderId.size() <= 128 &&
+             isValidEmail(data.senderEmail) &&
+             data.senderRole in ['admin', 'estudiante'] &&
+             data.text is string && data.text.size() >= 1 && data.text.size() <= 3000 &&
+             isValidDateString(data.createdAt);
+    }
+
+    // ===============================================================
+    // Collection Rules
+    // ===============================================================
+
+    // USUARIOS: Contains PII (email, fcmTokens). Strictly owner-only read/write.
+    // Self-registration forces role == 'estudiante'; role, email, and createdAt are immutable.
+    match /usuarios/{userId} {
+      allow read: if isOwner(userId);
+
+      allow create: if isOwner(userId) &&
+                       isValidUser(request.resource.data) &&
+                       request.resource.data.role == 'estudiante' &&
+                       'email' in request.auth.token &&
+                       request.resource.data.email.lower() == request.auth.token.email.lower();
+
+      allow update: if isOwner(userId) &&
+                       isValidUser(request.resource.data) &&
+                       areImmutableFieldsUnchanged(['email', 'role', 'createdAt']) &&
+                       request.resource.data.diff(resource.data).affectedKeys().hasOnly(['notificationPermission', 'fcmTokens']) &&
+                       request.resource.data.role == resource.data.role &&
+                       request.resource.data.email == resource.data.email &&
+                       request.resource.data.createdAt == resource.data.createdAt;
+
+      allow delete: if false;
+    }
+
+    // EXAMENES: Public academic exam schedule (main_data only, no PII). Admin-only write.
+    match /examenes/{documentId} {
+      allow read: if documentId == 'main_data';
+      allow create, update: if documentId == 'main_data' &&
+                               isAdmin() &&
+                               isValidExamenesDoc(request.resource.data);
+      allow delete: if false;
+    }
+
+    // ANUNCIOS: Public official faculty announcements (no PII). Admin-only CRUD.
+    match /anuncios/{anuncioId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidAnuncio(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    // REPORTES: Student reports (anonymous dropbox or identified ticket with chat).
+    // Reads are strictly limited to admins or the authenticated report owner.
+    match /reportes/{reporteId} {
+      allow read: if isAdmin() ||
+                     (isAuthenticated() && resource.data.userId == request.auth.uid);
+
+      allow create: if isValidReporte(request.resource.data) &&
+                       request.resource.data.status == 'Recibido' &&
+                       !('adminNotes' in request.resource.data) &&
+                       !('adminNotesUpdatedAt' in request.resource.data) &&
+                       !('adminNotesUpdatedBy' in request.resource.data) &&
+                       (
+                         request.resource.data.isAnonymous == true ||
+                         (
+                           isAuthenticated() &&
+                           request.resource.data.userId == request.auth.uid &&
+                           'email' in request.auth.token &&
+                           request.resource.data.userEmail.lower() == request.auth.token.email.lower()
+                         )
+                       );
+
+      allow update: if isValidReporte(request.resource.data) &&
+                       areImmutableFieldsUnchanged([
+                         'category', 'urgency', 'subject', 'details',
+                         'isAnonymous', 'createdAt', 'userId', 'userEmail'
+                       ]) &&
+                       (
+                         (
+                           isAdmin() &&
+                           request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+                             'status', 'adminNotes', 'adminNotesUpdatedAt', 'adminNotesUpdatedBy', 'updatedAt'
+                           ])
+                         ) ||
+                         (
+                           isAuthenticated() &&
+                           resource.data.isAnonymous == false &&
+                           'userId' in resource.data &&
+                           resource.data.userId == request.auth.uid &&
+                           request.resource.data.diff(resource.data).affectedKeys().hasOnly(['updatedAt'])
+                         )
+                       );
+
+      allow delete: if false;
+
+      // MENSAJES: Chat thread subcollection for identified reports only.
+      match /mensajes/{mensajeId} {
+        function reportPath() {
+          return /databases/$(database)/documents/reportes/$(reporteId);
+        }
+
+        function parentReportExists() {
+          return exists(reportPath());
+        }
+
+        function parentReportData() {
+          return get(reportPath()).data;
+        }
+
+        function isParentReportOwner() {
+          let parent = parentReportData();
+          return isAuthenticated() &&
+                 parent.isAnonymous == false &&
+                 'userId' in parent &&
+                 parent.userId == request.auth.uid;
+        }
+
+        allow read: if parentReportExists() && (isAdmin() || isParentReportOwner());
+
+        allow create: if parentReportExists() &&
+                         parentReportData().isAnonymous == false &&
+                         isAuthenticated() &&
+                         isValidMensaje(request.resource.data) &&
+                         request.resource.data.senderId == request.auth.uid &&
+                         'email' in request.auth.token &&
+                         request.resource.data.senderEmail.lower() == request.auth.token.email.lower() &&
+                         (
+                           (isAdmin() && request.resource.data.senderRole == 'admin') ||
+                           (!isAdmin() && isParentReportOwner() && request.resource.data.senderRole == 'estudiante')
+                         );
+
+        allow update, delete: if false;
+      }
+    }
+
+    // Default deny for all other paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

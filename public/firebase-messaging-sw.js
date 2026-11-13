@@ -4,12 +4,12 @@ importScripts('https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging-comp
 
 // Initialize the Firebase app in the service worker by passing in the messagingSenderId
 firebase.initializeApp({
-  apiKey: "AIzaSyDvLg9xHKPAo4-Car0rFrnx16gEl1PJw6I",
-  authDomain: "cefiapagina.firebaseapp.com",
-  projectId: "cefiapagina",
-  storageBucket: "cefiapagina.firebasestorage.app",
-  messagingSenderId: "817375541733",
-  appId: "1:817375541733:web:8b59060d7a4d636a2e170c"
+  apiKey: "AIzaSyC5MqbItc43gwnVonGDf7n3gv14Lt1vOb0",
+  authDomain: "cefia-web.firebaseapp.com",
+  projectId: "cefia-web",
+  storageBucket: "cefia-web.firebasestorage.app",
+  messagingSenderId: "129366179058",
+  appId: "1:129366179058:web:af6674347c2b2b0b24a46b"
 });
 
 // Retrieve an instance of Firebase Messaging so that it can handle background messages
